@@ -1,0 +1,37 @@
+version: "3.7"
+
+services:
+  phoenix:
+    build:
+      context: .
+    environment:
+      PGDATABASE: postgres
+      PGUSER: postgres
+      PGPASSWORD: postgres
+      PGPORT: 5432
+      PGHOST: postgres
+      INVOICING_STORAGE_DATA_PATH: /invoicing_storage
+    volumes:
+      - invoicing:/invoicing_storage
+    ports:
+      - "6969:6969"
+    depends_on:
+      - postgres
+
+  # DB for backend
+  postgres:
+    image: postgres:11
+    environment:
+      POSTGRES_DB: postgres
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      PGDATA: /var/lib/postgresql/data/pgdata
+    ports:
+      - "5432:5432"
+    restart: always
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+volumes:
+  invoicing:
+  pgdata:
