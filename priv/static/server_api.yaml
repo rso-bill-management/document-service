@@ -1,0 +1,98 @@
+openapi: 3.0.3
+info:
+  title: invoicing
+  version: 0.0.1
+security:
+  - jwt: []
+paths:
+  /status:
+    get:
+      summary: "Zwraca status systemu"
+      operationId: status
+      responses:
+        '200':
+          description: "System działa poprawnie"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    enum: ["ok"]
+  /login:
+    post:
+      summary: 'Logowanie, zwraca token JWT'
+      operationId: login
+      security: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - username
+                - password
+              properties:
+                username:
+                  type: string
+                password:
+                  type: string
+                  format: password
+      responses:
+        '200':
+          description: "Poprawne logowanie, zwraca informacje o użytkowniku oraz token JWT."
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - exp
+                  - token
+                  - user_id
+                  - username
+                  - name
+                  - surname
+                properties:
+                  username:
+                    type: string
+                  name:
+                    type: string
+                  surname:
+                    type: string
+                  user_id:
+                    type: string
+                    format: uuid
+                  token:
+                    description: 'Token JWT'
+                    type: string
+                  exp:
+                    description: 'Czas wygaśnięcia tokenu'
+                    type: integer
+                    format: timestamp
+                  permissions:
+                    description: 'Uprawnienia użytkownika'
+                    type: object
+                    properties:
+                      sign_order:
+                        type: boolean
+        '400':
+          description: "Niepoprawne logowanie. Zwraca informacje o błędzie logowania"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+components:
+  securitySchemes:
+    jwt:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      
+  schemas:
+    Error:
+      type: object
+      properties:
+        error: 
+          type: string
