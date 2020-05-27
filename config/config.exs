@@ -36,7 +36,7 @@ config :invoicing_db, InvoicingSystem.DB.Repo,
   hostname: {:system, "PGHOST"},
   port: {:system, "PGPORT", {String, :to_integer}}
 
-config :invoicing_rpc,
+config :invoicing_iam,
        InvoicingSystem.RPC.Endpoint,
        url: [
          host: "localhost"
@@ -44,7 +44,7 @@ config :invoicing_rpc,
        http: [
          port: "6969"
        ],
-       render_errors: [view: InvoicingSystem.RPC.ErrorView, accepts: ~w(json)]
+       render_errors: [view: InvoicingSystem.API.ErrorView, accepts: ~w(json)]
 
 config :invoicing_db,
   ecto_repos: [InvoicingSystem.DB.Repo]

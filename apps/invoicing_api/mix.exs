@@ -1,4 +1,4 @@
-defmodule Invoicing.RPC.MixProject do
+defmodule InvoicingSystem.API.MixProject do
   use Mix.Project
 
   def project() do
@@ -23,7 +23,7 @@ defmodule Invoicing.RPC.MixProject do
 
   def application do
     [
-      mod: {Invoicing.RPC.Application, []},
+      mod: {InvoicingSystem.API.Application, []},
       extra_applications: [:logger]
     ]
   end

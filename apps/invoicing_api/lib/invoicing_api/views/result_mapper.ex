@@ -1,4 +1,4 @@
-defmodule Invoicing.API.Views.ResultMapper do
+defmodule InvoicingSystem.API.Views.ResultMapper do
   def map_result({:ok, body}), do: {:ok, body}
   def map_result(:ok), do: {:ok, status: :ok}
   def map_result({:error, reason} = error), do: {status(reason), error}

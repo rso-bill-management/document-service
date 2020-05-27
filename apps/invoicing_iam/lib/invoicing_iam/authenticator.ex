@@ -1,7 +1,6 @@
 defmodule InvoicingSystem.IAM.Authenticator do
   use Joken.Config
 
-  alias InvoicingSystem.IAM.Groups
   alias InvoicingSystem.IAM.Users
 
   def authenticate(username, password) do
@@ -32,7 +31,7 @@ defmodule InvoicingSystem.IAM.Authenticator do
          uuid: uuid,
          username: user.username,
          name: user.name,
-         surname: user.surname,
+         surname: user.surname
        }}
     end
   end
@@ -41,13 +40,13 @@ defmodule InvoicingSystem.IAM.Authenticator do
          uuid: uuid,
          username: username,
          name: name,
-         surname: surname,
+         surname: surname
        }) do
     %{
       "user_id" => uuid,
       "username" => username,
       "name" => name,
-      "surname" => surname,
+      "surname" => surname
     }
   end
 

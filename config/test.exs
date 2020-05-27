@@ -13,7 +13,7 @@ config :invoicing,
 
 # We don't run a server during test. If one is required,
 # you can enable the server option below.
-config :invoicing_rpc, InvoicingSystem.RPC.Endpoint,
+config :invoicing_api, InvoicingSystem.API.Endpoint,
   http: [port: 4002],
   server: false
 

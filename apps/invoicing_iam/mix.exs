@@ -22,7 +22,7 @@ defmodule InvoicingSystem.IAM.MixProject do
 
   def application do
     [
-      mod: {Invoicing.IAM.Application, []},
+      mod: {InvoicingSystem.IAM.Application, []},
       extra_applications: [:logger]
     ]
   end
