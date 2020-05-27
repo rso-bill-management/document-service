@@ -1,4 +1,4 @@
-defmodule InvoicingSystem.MixProject do
+defmodule InvoicingSystem.Umbrella.MixProject do
   use Mix.Project
 
   def project do
