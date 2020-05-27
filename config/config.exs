@@ -36,8 +36,8 @@ config :invoicing_db, InvoicingSystem.DB.Repo,
   hostname: {:system, "PGHOST"},
   port: {:system, "PGPORT", {String, :to_integer}}
 
-config :invoicing_iam,
-       InvoicingSystem.RPC.Endpoint,
+config :invoicing_api,
+       InvoicingSystem.API.Endpoint,
        url: [
          host: "localhost"
        ],

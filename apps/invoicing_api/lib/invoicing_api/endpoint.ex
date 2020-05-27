@@ -1,5 +1,5 @@
 defmodule InvoicingSystem.API.Endpoint do
-  use Phoenix.Endpoint, otp_app: :surveyor_rpc
+  use Phoenix.Endpoint, otp_app: :invoicing_api
 
   plug(Plug.Parsers,
     pass: ["application/json"],

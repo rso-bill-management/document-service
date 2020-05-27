@@ -11,6 +11,7 @@ services:
       PGPORT: 5432
       PGHOST: postgres
       INVOICING_STORAGE_DATA_PATH: /invoicing_storage
+      INVOICING_JOKEN_SECRET: very-secret-secret
     volumes:
       - invoicing:/invoicing_storage
     ports:

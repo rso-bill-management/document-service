@@ -1,4 +1,4 @@
-defmodule InvoicingSystem.Documents.MixProject do
+defmodule InvoicingSystem.Invoices.MixProject do
   use Mix.Project
 
   def project() do
@@ -22,7 +22,7 @@ defmodule InvoicingSystem.Documents.MixProject do
 
   def application do
     [
-      mod: {InvoicingSystem.Documents.Application, []},
+      mod: {InvoicingSystem.Invoicing.Application, []},
       extra_applications: [:logger, :pdf_generator]
     ]
   end
