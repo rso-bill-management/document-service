@@ -1,5 +1,5 @@
-defmodule Invoicing.API.Endpoint do
-  use Phoenix.Endpoint, otp_app: :surveyor_rpc
+defmodule InvoicingSystem.API.Endpoint do
+  use Phoenix.Endpoint, otp_app: :invoicing_api
 
   plug(Plug.Parsers,
     pass: ["application/json"],
@@ -9,5 +9,5 @@ defmodule Invoicing.API.Endpoint do
 
   plug(Plug.Static, at: "/", from: Path.absname("../../priv/static"))
 
-  plug(Invoicing.API.Router)
+  plug(InvoicingSystem.API.Router)
 end

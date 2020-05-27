@@ -1,16 +1,15 @@
-defmodule InvoicingSystem.API.MixProject do
+defmodule InvoicingSystem.DB.MixProject do
   use Mix.Project
 
   def project() do
     [
-      app: :invoicing_api,
+      app: :invoicing_db,
       version: "#{String.trim(File.read!("../../VERSION"))}",
       build_path: "../../_build",
       config_path: "../../config/config.exs",
       deps_path: "../../deps",
       lockfile: "../../mix.lock",
       elixir: "~> 1.10",
-      compilers: Mix.compilers(),
       elixirc_paths: elixirc_paths(Mix.env()),
       start_permanent: Mix.env() == :prod,
       deps: deps()
@@ -23,20 +22,18 @@ defmodule InvoicingSystem.API.MixProject do
 
   def application do
     [
-      mod: {InvoicingSystem.API.Application, []},
+      mod: {InvoicingSystem.DB.Application, []},
       extra_applications: [:logger]
     ]
   end
 
   defp deps do
     [
-      {:phoenix, "~> 1.4"},
-      {:plug_cowboy, "~> 2.1"},
-
-      # UMBRELLA
+      {:deferred_config, "~> 0.1.1"},
+      {:ecto_sql, "~> 3.0"},
+      {:postgrex, "~> 0.15.3"}
 
       # TESTS
-      {:mock, "~> 0.3.4", only: [:test]}
     ]
   end
 end

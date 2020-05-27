@@ -1,10 +1,10 @@
-defmodule Invoicing.API.Application do
+defmodule InvoicingSystem.API.Application do
   use Application
   require Logger
 
   def start(_, _) do
-    children = [Invoicing.API.Endpoint]
+    children = [InvoicingSystem.API.Endpoint]
 
-    Supervisor.start_link(children, strategy: :one_for_one, name: Invoicing.API.Supervisor)
+    Supervisor.start_link(children, strategy: :one_for_one, name: InvoicingSystem.API.Supervisor)
   end
 end

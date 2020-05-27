@@ -1,12 +1,12 @@
-defmodule Invoicing.API do
+defmodule InvoicingSystem.API do
   @moduledoc """
   The entrypoint for defining your web interface, such
   as controllers, views, channels and so on.
 
   This can be used in your application as:
 
-      use Invoicing.API, :controller
-      use Invoicing.API, :view
+      use InvoicingSystem.API, :controller
+      use InvoicingSystem.API, :view
 
   The definitions below will be executed for every view,
   controller, etc, so keep them short and clean, focused
@@ -19,11 +19,11 @@ defmodule Invoicing.API do
 
   def controller do
     quote do
-      use Phoenix.Controller, namespace: Invoicing.API
+      use Phoenix.Controller, namespace: InvoicingSystem.API
 
       import Plug.Conn
-      import Invoicing.API.Views.ResultMapper
-      alias Invoicing.API.Router.Helpers, as: Routes
+      import InvoicingSystem.API.Views.ResultMapper
+      alias InvoicingSystem.API.Router.Helpers, as: Routes
 
       def json_resp({status, body}, conn) do
         conn |> put_status(status) |> json(body)
