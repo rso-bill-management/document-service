@@ -19,6 +19,7 @@ defmodule InvoicingSystem.API.Router do
     pipe_through(:unrestricted_api)
 
     post("/login", LoginController, :login)
+    post("/register", RegisterController, :register)
   end
 
   scope "/", InvoicingSystem.API do
