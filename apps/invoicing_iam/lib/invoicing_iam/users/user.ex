@@ -9,14 +9,14 @@ defmodule InvoicingSystem.IAM.Users.User do
       length: [min: 4],
       format: ~r/^[[:alpha:]][[:alnum:]]+$/
     ],
-    name: [
-      length: [min: 2],
-      format: ~r/^[[:upper:]][[:lower:]]+$/u
-    ],
-    surname: [
-      length: [min: 2],
-      format: ~r/^[[:upper:]][[:lower:]]+$/u
-    ],
+    # name: [
+    #   length: [min: 2],
+    #   format: ~r/^[[:upper:]][[:lower:]]+$/u
+    # ],
+    # surname: [
+    #   length: [min: 2],
+    #   format: ~r/^[[:upper:]][[:lower:]]+$/u
+    # ],
     password: [
       length: [min: 6, allow_nil: true],
       format: [with: ~r/^[[:graph:]]+$/u, allow_nil: true]
