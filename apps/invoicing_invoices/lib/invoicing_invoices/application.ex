@@ -9,7 +9,6 @@ defmodule InvoicingSystem.Invoicing.Application do
     Logger.info("Starting application Invoicing System Invoices")
 
     DeferredConfig.populate(:invoicing_invoices)
-    renderer_templates_path = Application.fetch_env!(:invoicing_invoices, :templates_path)
 
     children = []
 

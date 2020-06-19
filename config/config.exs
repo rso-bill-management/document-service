@@ -37,6 +37,7 @@ config :invoicing_db, InvoicingSystem.DB.Repo,
 
 config :invoicing_api,
        InvoicingSystem.API.Endpoint,
+       server: true,
        url: [
          host: "localhost"
        ],

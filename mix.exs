@@ -3,13 +3,13 @@ defmodule InvoicingSystem.Umbrella.MixProject do
 
   def project do
     [
-      app: :invoicing_umbrella,
       apps_path: "apps",
       version: "#{String.trim(File.read!("VERSION"))}",
       start_permanent: Mix.env() == :prod,
       deps: deps(),
       aliases: aliases(),
-      test_paths: test_paths()
+      test_paths: test_paths(),
+      releases: releases()
     ]
   end
 
@@ -21,6 +21,7 @@ defmodule InvoicingSystem.Umbrella.MixProject do
   defp deps do
     [
       {:deferred_config, "~> 0.1.1"},
+      {:uuid, "~> 1.1"},
 
       ### TESTS
       {
@@ -29,6 +30,17 @@ defmodule InvoicingSystem.Umbrella.MixProject do
         branch: "feature/require_files_not_load",
         only: [:test]
       }
+    ]
+  end
+
+  defp releases() do
+    [
+      phoenix: [
+        applications: [invoicing_api: :permanent]
+      ],
+      iam: [
+        applications: [invoicing_iam: :permanent]
+      ]
     ]
   end
 
