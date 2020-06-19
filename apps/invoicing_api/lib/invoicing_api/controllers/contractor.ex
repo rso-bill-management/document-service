@@ -4,4 +4,4 @@ defmodule InvoicingSystem.API.ContractorController do
     def index(conn, %{}) do
       json_resp({:ok, %{status: :ok}}, conn)
     end
-  end
+end
