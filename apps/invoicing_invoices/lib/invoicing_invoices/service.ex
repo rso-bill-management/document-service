@@ -4,8 +4,9 @@ defmodule InvoicingSystem.Invoicing.Service do
 
   use InvoicingSystem.DB.Entity
   alias InvoicingSystem.DB
-  alias InvoicingSystem.Invoicing.Structs
   alias InvoicingSystem.Invoicing.Invoice
+  alias InvoicingSystem.Invoicing.Service.Core
+  alias InvoicingSystem.Invoicing.Structs
 
   defstruct [
     :uuid,
@@ -85,13 +86,13 @@ defmodule InvoicingSystem.Invoicing.Service do
   def handle_call(
         {:contractors, :add, %Structs.Contractor{} = contractor},
         _from,
-        %__MODULE__{uuid: uuid} = state
+        %__MODULE__{} = state
       ) do
     Logger.info("Adding new contractor #{inspect(contractor)}")
 
-    updated_state = Map.update!(state, :contractors, &:erlang.++(&1, [contractor]))
+    {:ok, db_updates, updated_state} = Core.add_contractor(state, contractor)
 
-    :ok = DB.update(uuid, updated_state)
+    :ok = DB.execute(db_updates)
     {:reply, :ok, updated_state}
   end
 
@@ -105,13 +106,13 @@ defmodule InvoicingSystem.Invoicing.Service do
   def handle_call(
         {:invoices, :add, %Invoice{} = invoice},
         _from,
-        %__MODULE__{uuid: uuid} = state
+        %__MODULE__{} = state
       ) do
     Logger.info("Adding new invoice #{inspect(invoice)}")
 
-    updated_state = Map.update!(state, :invoices, &:erlang.++(&1, [invoice]))
+    {:ok, db_updates, updated_state} = Core.add_invoice(state, invoice)
 
-    :ok = DB.update(uuid, updated_state)
+    :ok = DB.execute(db_updates)
     {:reply, :ok, updated_state}
   end
 

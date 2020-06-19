@@ -31,25 +31,25 @@ defmodule InvoicingSystem.Invoices.ServiceTest do
 
   describe "contractors:" do
     test "can get contractors when state is empty" do
-      {:ok, []} = Service.contractors(@uuid)
+      assert {:ok, []} = Service.contractors(@uuid)
     end
 
     @tag fixtures: [:contractor]
     test "can add contractor", %{contractor: contractor} do
       :ok = Service.add_contractor(@uuid, contractor)
-      {:ok, [^contractor]} = Service.contractors(@uuid)
+      assert {:ok, [^contractor]} = Service.contractors(@uuid)
     end
   end
 
   describe "invoices:" do
     test "can get invoices when state is empty" do
-      {:ok, []} = Service.invoices(@uuid)
+      assert {:ok, []} = Service.invoices(@uuid)
     end
 
     @tag fixtures: [:invoice]
     test "can add invoice", %{invoice: invoice} do
       :ok = Service.add_invoice(@uuid, invoice)
-      {:ok, [^invoice]} = Service.invoices(@uuid)
+      assert {:ok, [%{invoice | number: 1}]} == Service.invoices(@uuid)
     end
   end
 end
