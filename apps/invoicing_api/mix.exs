@@ -32,6 +32,7 @@ defmodule InvoicingSystem.API.MixProject do
     [
       {:phoenix, "~> 1.4"},
       {:plug_cowboy, "~> 2.1"},
+      {:pdf_generator, ">=0.4.0"},
 
       # UMBRELLA
 
