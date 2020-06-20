@@ -3,7 +3,7 @@ defmodule InvoicingSystem.API.Router do
 
   alias InvoicingSystem.API.Plugs
 
-  @crud_actions [:index, :create, :update, :show, :delete]
+  # @crud_actions [:index, :create, :update, :show, :delete]
 
   pipeline :unrestricted_api do
     plug(:accepts, ["json"])
