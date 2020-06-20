@@ -27,7 +27,6 @@ config :vex,
 config :phoenix, json_library: Jason
 
 
-
 # INVOICING APP CONFIGURATION
 config :invoicing_db, InvoicingSystem.DB.Repo,
   database: {:system, "PGDATABASE"},
