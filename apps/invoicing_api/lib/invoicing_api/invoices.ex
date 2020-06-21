@@ -4,12 +4,14 @@ defmodule InvoicingSystem.API.Invoices do
     """
     use GenServer
 
-    require Logger 
-    
     alias InvoicingSystem.API.Invoices.Core
     alias InvoincingSystem.API.Invoices.Invoice
     alias InvoicingSystem.DB
     alias UUID
+
+    require Logger 
+
+    @invoice_uuid "00000000-0000-0000-0000-000000006969"
 
     defstruct invoices: %{}
     
@@ -28,6 +30,8 @@ defmodule InvoicingSystem.API.Invoices do
         updated_invoices = 
             DB.get(:invoices)
             |> Map.new()
+            |> (&Map.merge(invoices, &1)).()
+            |> inject_mock_invoice()
             # |> (&Map.merge(invoices, &1)).()
 
         {:noreply, %{state | invoices: updated_invoices}}
@@ -40,5 +44,20 @@ defmodule InvoicingSystem.API.Invoices do
     # handlers 
     def handle_call({:get, uuid}, _from, state) do 
         {:reply, Core.get_invoice(state, uuid), state}
+    end
+
+    defp inject_mock_invoice(init_invoices) do
+      if Map.has_key?(init_invoices, @invoice_uuid) do
+        init_invoices
+      else
+        Logger.warn("Injecting mock invoice")
+        
+        {:ok, mock_invoice} = 
+          Invoice.new(number: "123", date_issue: "~D[2020-06-21]", place_issue: "place", sales_data: "~D[2020-06-21]", net_price_sum: "6969", vat_sum: "123", gross_sum: "123", payment_type: "transfer", payment_days: 3.14)
+    
+        :ok = DB.execute([{:add, @invoice_uuid, mock_invoice}])
+    
+        Map.put_new(init_invoices, @invoice_uuid, mock_invoice)
+      end
     end
 end
