@@ -24,6 +24,6 @@ defmodule InvoicingSystem.API.Router do
   scope "/", InvoicingSystem.API do
     pipe_through(:api)
     get("/status", StatusController, :status)
-    get("/invoice/:uuid", InvoiceController, :show)
+    get("/invoices/:uuid", InvoiceController, :show)
   end
 end

@@ -32,9 +32,6 @@ defmodule InvoicingSystem.DB.MixProject do
       {:deferred_config, "~> 0.1.1"},
       {:ecto_sql, "~> 3.0"},
       {:postgrex, "~> 0.15.3"}, 
-      # Postgres enum support
-      {:ecto_enum, "~> 1.4"},
-
       # TESTS
     ]
   end

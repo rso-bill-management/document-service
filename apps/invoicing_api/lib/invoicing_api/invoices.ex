@@ -32,7 +32,6 @@ defmodule InvoicingSystem.API.Invoices do
             |> Map.new()
             |> (&Map.merge(invoices, &1)).()
             |> inject_mock_invoice()
-            # |> (&Map.merge(invoices, &1)).()
 
         {:noreply, %{state | invoices: updated_invoices}}
     end
