@@ -10,5 +10,5 @@ defmodule InvoicingSystem.API.Invoices.Core do
 
 
     defp map_find_result(:error), do: {:error, :not_found}
-    # defp map_find_result({:ok, %Invoice{} = invoice}), do: {:ok, invoice}  
+    defp map_find_result({:ok, %Invoice{} = invoice}), do: {:ok, invoice}  
 end

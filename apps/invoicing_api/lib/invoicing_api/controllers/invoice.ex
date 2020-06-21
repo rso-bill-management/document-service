@@ -8,7 +8,7 @@ defmodule InvoicingSystem.API.InvoiceController do
   
     def show(conn, %{"uuid" => uuid}) do
         with {:ok, invoice} <- Invoices.get_invoice(uuid) do
-             json_resp({:ok, %{witam: invoice}}, conn)
+             json_resp({:ok, %{invoice: invoice}}, conn)
         else
         error ->
             Logger.warn("Could not download pdf: #{inspect(error)}")

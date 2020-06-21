@@ -5,6 +5,7 @@ defmodule InvoicingSystem.API.Application do
   def start(_, _) do
     # children = [InvoicingSystem.API.Endpoint]
     children = [
+      { InvoicingSystem.API.Endpoint, []}, 
       { InvoicingSystem.API.Invoices, [] }
     ]
     Supervisor.start_link(children, strategy: :one_for_one, name: InvoicingSystem.API.Supervisor)
