@@ -32,8 +32,12 @@ defmodule InvoicingSystem.API.MixProject do
     [
       {:phoenix, "~> 1.4"},
       {:plug_cowboy, "~> 2.1"},
+      # pdf generation
+      {:pdf_generator, ">=0.4.0"},
 
       # UMBRELLA
+      {:invoicing_utils, in_umbrella: true},
+      {:invoicing_db, in_umbrella: true},
 
       # TESTS
       {:mock, "~> 0.3.4", only: [:test]}

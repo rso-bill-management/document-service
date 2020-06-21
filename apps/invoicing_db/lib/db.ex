@@ -3,6 +3,7 @@ defmodule InvoicingSystem.DB do
   alias InvoicingSystem.DB.Repo
 
   InvoicingSystem.DB.Entity.entity(:users)
+  InvoicingSystem.DB.Entity.entity(:invoices)
 
   def execute(actions) do
     Repo.transaction(fn ->
