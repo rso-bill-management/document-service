@@ -26,7 +26,6 @@ defmodule InvoicingSystem.API.Renderer do
     
         templates = File.ls!(templates_path)
         
-        templates = List.first(templates)
         Logger.info("Found template: #{inspect(templates)}")
     
         Logger.info("Loading template")
