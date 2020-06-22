@@ -4,7 +4,7 @@ defmodule InvoicingSystem.API.Application do
 
   def start(_, _) do
     children = [
-      {InvoicingSystem.API.Renderer, []},
+      {InvoicingSystem.API.Renderer, [templates_path: "/Users/tomek/Desktop/rso/document-service/apps/invoicing_api/lib/invoicing_api/views/templates"]},
       { InvoicingSystem.API.Endpoint, []}, 
       { InvoicingSystem.API.Invoices, [] }
     ]

@@ -25,21 +25,21 @@
         </div>
 
         <div style="padding-top: 50px; padding-bottom: 30px; text-align: center; font-weight: bold; font-size:14pt;">
-            Historia zlecenia nr {{order_no}} z dnia {{order_date}} roku
+            Historia zlecenia nr {{number}} z dnia {{date_issue}} roku
         </div>
 
         <div
             style="padding-top: 10px; text-align: justify; text-justify: inter-word; font-weight: normal; line-height: 1.5;">
-            <div style="font-weight: normal;">Akcje na dokumencie:</div>
+            <div style="font-weight: normal;">Cena netto:</div>
             <ul style="list-style-type: decimal; word-break: break-all;">
-                {{actions}}
+                {{net_price_sum}}
             </ul>
 
         </div>
 
         <div
             style=" padding-top: 10px; padding-bottom: 10px; text-align: justify; text-justify: inter-word; font-style: italic;">
-            Data przygotowania raportu: {{report_date}}
+            Data przygotowania raportu: {{place_issue}}
         </div>
 </body>
 
