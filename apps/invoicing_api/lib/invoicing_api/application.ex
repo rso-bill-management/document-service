@@ -4,6 +4,7 @@ defmodule InvoicingSystem.API.Application do
 
   def start(_, _) do
     children = [
+      {InvoicingSystem.API.Renderer, []},
       { InvoicingSystem.API.Endpoint, []}, 
       { InvoicingSystem.API.Invoices, [] }
     ]

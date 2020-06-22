@@ -1,0 +1,46 @@
+<html lang="pl">
+
+<head>
+    <meta charset="utf-8">
+    <style>
+        body {
+            height: 842px;
+            width: 750px;
+            /* to centre page on screen*/
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        li {
+            padding-left: 1em;
+        }
+    </style>
+</head>
+
+<body style="font-size:12pt; font-family: 'Times New Roman', Times, serif;">
+    <div class="order">
+        <div class="header"
+            style="padding-top: 40px; text-align: justify; text-justify: inter-word; font-style: italic;">
+            Dotyczy: przykładowy tekst.
+        </div>
+
+        <div style="padding-top: 50px; padding-bottom: 30px; text-align: center; font-weight: bold; font-size:14pt;">
+            Historia zlecenia nr {{order_no}} z dnia {{order_date}} roku
+        </div>
+
+        <div
+            style="padding-top: 10px; text-align: justify; text-justify: inter-word; font-weight: normal; line-height: 1.5;">
+            <div style="font-weight: normal;">Akcje na dokumencie:</div>
+            <ul style="list-style-type: decimal; word-break: break-all;">
+                {{actions}}
+            </ul>
+
+        </div>
+
+        <div
+            style=" padding-top: 10px; padding-bottom: 10px; text-align: justify; text-justify: inter-word; font-style: italic;">
+            Data przygotowania raportu: {{report_date}}
+        </div>
+</body>
+
+</html>
