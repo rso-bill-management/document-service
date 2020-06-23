@@ -7,7 +7,7 @@ defmodule InvoicingSystem.DB.Entity do
     end
   end
 
-  defmacro entity(table) do
+  defmacro entity(table, opts \\ [encrypt: false]) do
     table_name = Atom.to_string(table)
 
     quote do
@@ -29,19 +29,19 @@ defmodule InvoicingSystem.DB.Entity do
       def get(unquote(table)) do
         unquote(table)
         |> InvoicingSystem.DB.Repo.all()
-        |> Enum.map(&entity_to_struct/1)
+        |> Enum.map(&entity_to_struct(&1, unquote(opts)))
       end
 
       def get!(unquote(table), uuid) when is_binary(uuid) do
         unquote(table)
         |> InvoicingSystem.DB.Repo.get!(uuid)
-        |> entity_to_struct()
+        |> entity_to_struct(unquote(opts))
       end
 
       def get(unquote(table), uuid) when is_binary(uuid) do
         unquote(table)
         |> InvoicingSystem.DB.Repo.get(uuid)
-        |> entity_to_struct()
+        |> entity_to_struct(unquote(opts))
       end
 
       def delete(unquote(table), uuid) when is_binary(uuid) do
@@ -55,7 +55,7 @@ defmodule InvoicingSystem.DB.Entity do
       defp insert(unquote(table), uuid, struct) do
         {:ok, _} =
           {uuid, struct}
-          |> struct_to_entity(unquote(table))
+          |> struct_to_entity(unquote(table), unquote(opts))
           |> InvoicingSystem.DB.Repo.insert()
 
         :ok
@@ -64,20 +64,47 @@ defmodule InvoicingSystem.DB.Entity do
       defp update(unquote(table), uuid, struct) do
         {:ok, _} =
           {uuid, struct}
-          |> struct_to_entity(unquote(table))
+          |> struct_to_entity(unquote(table), unquote(opts))
           |> unquote(table).changeset()
           |> InvoicingSystem.DB.Repo.update()
 
         :ok
       end
 
-      defp struct_to_entity({uuid, struct}, unquote(table)),
+      defp struct_to_entity({uuid, struct}, unquote(table), encrypt: false),
         do: struct!(unquote(table), uuid: uuid, data: :erlang.term_to_binary(struct))
 
-      defp entity_to_struct(%unquote(table){uuid: uuid, data: data}),
+      defp entity_to_struct(%unquote(table){uuid: uuid, data: data}, encrypt: false),
         do: {uuid, :erlang.binary_to_term(data)}
 
-      defp entity_to_struct(nil), do: nil
+      defp struct_to_entity({uuid, struct}, unquote(table), encrypt: true) do
+        alias InvoicingSystem.DB.Encryption
+
+        key =
+          case get(:keys, uuid) do
+            {uuid, key} ->
+              key
+
+            nil ->
+              key = Encryption.new()
+              :ok = insert(:keys, uuid, key)
+              key
+          end
+
+        data = :erlang.term_to_binary(struct)
+        encrypted = Encryption.encrypt(key, data)
+        struct!(unquote(table), uuid: uuid, data: encrypted)
+      end
+
+      defp entity_to_struct(%unquote(table){uuid: uuid, data: data}, encrypt: true) do
+        alias InvoicingSystem.DB.Encryption
+        {_uuid, key} = get!(:keys, uuid)
+        decrypted = Encryption.decrypt(key, data)
+
+        {uuid, :erlang.binary_to_term(decrypted)}
+      end
+
+      defp entity_to_struct(nil, _), do: nil
     end
   end
 end

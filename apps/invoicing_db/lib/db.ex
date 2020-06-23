@@ -3,7 +3,8 @@ defmodule InvoicingSystem.DB do
   alias InvoicingSystem.DB.Repo
 
   InvoicingSystem.DB.Entity.entity(:users)
-  InvoicingSystem.DB.Entity.entity(:users_data)
+  InvoicingSystem.DB.Entity.entity(:keys)
+  InvoicingSystem.DB.Entity.entity(:users_data, encrypt: true)
 
   def execute(actions) do
     Repo.transaction(fn ->

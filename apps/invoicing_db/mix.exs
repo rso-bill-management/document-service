@@ -30,6 +30,7 @@ defmodule InvoicingSystem.DB.MixProject do
   defp deps do
     [
       {:deferred_config, "~> 0.1.1"},
+      {:ex_crypto, "~> 0.10.0"},
       {:ecto_sql, "~> 3.0"},
       {:postgrex, "~> 0.15.3"}
       # TESTS
