@@ -6,4 +6,8 @@ defmodule InvoicingSystem.Invoicing.Structs.Contractor do
     :street,
     :postalCode
   ]
+
+  def new(opts) do
+    {:ok, struct!(__MODULE__, opts)}
+  end
 end

@@ -4,14 +4,13 @@ defmodule InvoicingSystem.Invoicing.Service do
 
   use InvoicingSystem.DB.Entity
   alias InvoicingSystem.DB
-  alias InvoicingSystem.Invoicing.Invoice
   alias InvoicingSystem.Invoicing.Service.Core
-  alias InvoicingSystem.Invoicing.Structs
 
   defstruct [
     :uuid,
     contractors: [],
-    invoices: [],
+    invoices: %{},
+    items: [],
     seller: %{}
   ]
 
@@ -22,28 +21,41 @@ defmodule InvoicingSystem.Invoicing.Service do
 
   def contractors(uuid) do
     {[{_node, response}], _} =
-      GenServer.multi_call(String.to_existing_atom(uuid), {:contractors, :get})
+      GenServer.multi_call(String.to_existing_atom(uuid), {:get, :contractors})
 
     response
   end
 
-  def add_contractor(uuid, contractor) do
+  def add_contractor(uuid, opts) do
     {[{_node, response}], _} =
-      GenServer.multi_call(String.to_existing_atom(uuid), {:contractors, :add, contractor})
+      GenServer.multi_call(String.to_existing_atom(uuid), {:add, :contractor, opts})
 
     response
   end
 
   def invoices(uuid) do
     {[{_node, response}], _} =
-      GenServer.multi_call(String.to_existing_atom(uuid), {:invoices, :get})
+      GenServer.multi_call(String.to_existing_atom(uuid), {:get, :invoices})
 
     response
   end
 
-  def add_invoice(uuid, invoice) do
+  def add_invoice(uuid, opts) do
     {[{_node, response}], _} =
-      GenServer.multi_call(String.to_existing_atom(uuid), {:invoices, :add, invoice})
+      GenServer.multi_call(String.to_existing_atom(uuid), {:add, :invoice, opts})
+
+    response
+  end
+
+  def predefined_items(uuid) do
+    {[{_node, response}], _} = GenServer.multi_call(String.to_existing_atom(uuid), {:get, :items})
+
+    response
+  end
+
+  def add_predefined_item(uuid, opts) do
+    {[{_node, response}], _} =
+      GenServer.multi_call(String.to_existing_atom(uuid), {:add, :item, opts})
 
     response
   end
@@ -77,40 +89,21 @@ defmodule InvoicingSystem.Invoicing.Service do
   end
 
   @impl GenServer
-  def handle_call({:contractors, :get}, _from, %__MODULE__{contractors: contractors} = state) do
-    Logger.info("Getting all contractors")
-    {:reply, {:ok, contractors}, state}
+  def handle_call({:get, entity}, _from, %__MODULE__{} = state) do
+    Logger.info("Getting all #{Atom.to_string(entity)}")
+    response = Core.get(state, entity)
+    {:reply, response, state}
   end
 
   @impl GenServer
   def handle_call(
-        {:contractors, :add, %Structs.Contractor{} = contractor},
+        {:add, entity, opts},
         _from,
         %__MODULE__{} = state
       ) do
-    Logger.info("Adding new contractor #{inspect(contractor)}")
+    Logger.info("Adding new #{Atom.to_string(entity)}: #{inspect(opts)}")
 
-    {:ok, db_updates, updated_state} = Core.add_contractor(state, contractor)
-
-    :ok = DB.execute(db_updates)
-    {:reply, :ok, updated_state}
-  end
-
-  @impl GenServer
-  def handle_call({:invoices, :get}, _from, %__MODULE__{invoices: invoices} = state) do
-    Logger.info("Getting all invoices")
-    {:reply, {:ok, invoices}, state}
-  end
-
-  @impl GenServer
-  def handle_call(
-        {:invoices, :add, %Invoice{} = invoice},
-        _from,
-        %__MODULE__{} = state
-      ) do
-    Logger.info("Adding new invoice #{inspect(invoice)}")
-
-    {:ok, db_updates, updated_state} = Core.add_invoice(state, invoice)
+    {:ok, db_updates, updated_state} = Core.add(state, entity, opts)
 
     :ok = DB.execute(db_updates)
     {:reply, :ok, updated_state}
