@@ -6,13 +6,12 @@ defmodule InvoicingSystem.API.InvoiceController do
 
     require Logger
 
-    # TODO: pdf generation
     def show(conn, %{"uuid" => uuid}) do
         with {:ok, invoice} <- Invoices.get_invoice(uuid),
              {:ok, file_contents} <- Renderer.render(invoice) do
             Logger.info("Downloading pdf file from backend")
             send_download(conn, {:binary, file_contents},
-                filename: "invoice.pdf"
+                filename: "#{invoice.number}_#{invoice.date_issue}.pdf"
             )
         else
         error ->
