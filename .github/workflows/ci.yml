@@ -38,7 +38,7 @@ jobs:
           mix local.rebar --force
           mix deps.get
       - name: DB migration
-        run: MIX_ENV=test mix ecto.migrate --migrations-path priv/postgres/migrations
+        run: MIX_ENV=ci_migrations mix ecto.migrate --migrations-path priv/postgres/migrations
       - name: Linter
         run: mix format --check-formatted
       - name: Test
