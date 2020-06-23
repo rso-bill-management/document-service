@@ -1,4 +1,6 @@
 defmodule InvoicingSystem.Invoicing.Structs.Contractor do
+
+  @derive Jason.Encoder
   defstruct [
     :name,
     :tin,

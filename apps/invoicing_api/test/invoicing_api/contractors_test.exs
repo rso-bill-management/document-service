@@ -51,5 +51,37 @@ defmodule InvoicingSystem.API.InvoicesControllerTest do
     test "can get contractors", %{conn: conn} do
       conn |> get("/invoicing/contractors") |> json_response(:ok)
     end
+
+    test "can add contractor", %{conn: conn} do
+      contractor = %{
+        tin: "123456789",
+        name: "Hurt-Detal Jan Kowalski",
+        town: "Warszawa",
+        street: "Obozowa 1/12",
+        postalCode: "01-123"
+      }
+
+      conn |> post("/invoicing/contractors", contractor) |> json_response(:ok)
+      conn |> get("/invoicing/contractors") |> json_response(:ok)
+    end
+  end
+
+  describe "predefined items:" do
+    test "can get predefined items", %{conn: conn} do
+      conn |> get("/invoicing/predefined_items") |> json_response(:ok)
+    end
+
+    test "can add a predefined item", %{conn: conn} do
+      predefined_item = %{
+        title: "Gwoździe",
+        vat: 23,
+        unit: "kg",
+        unitNettoPrice: 123.12,
+        count: 1.24
+      }
+
+      conn |> post("/invoicing/predefined_items", predefined_item) |> json_response(:ok)
+      conn |> get("/invoicing/predefined_items") |> json_response(:ok)
+    end
   end
 end

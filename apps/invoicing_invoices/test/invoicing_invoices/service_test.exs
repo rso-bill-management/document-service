@@ -86,4 +86,8 @@ defmodule InvoicingSystem.Invoices.ServiceTest do
     assert {:ok, invoices} = Service.invoices(@uuid)
     assert length(Map.keys(invoices)) == 1
   end
+
+  test "can set seller" do
+    :ok = Service.set_seller(@uuid, tin: "123", city: "Warszawa")
+  end
 end
