@@ -1,1 +1,2 @@
-
+ExUnitFixtures.start()
+ExUnit.start()

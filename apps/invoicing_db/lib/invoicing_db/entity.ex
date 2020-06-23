@@ -32,9 +32,15 @@ defmodule InvoicingSystem.DB.Entity do
         |> Enum.map(&entity_to_struct/1)
       end
 
-      def get(unquote(table), uuid) when is_binary(uuid) do
+      def get!(unquote(table), uuid) when is_binary(uuid) do
         unquote(table)
         |> InvoicingSystem.DB.Repo.get!(uuid)
+        |> entity_to_struct()
+      end
+
+      def get(unquote(table), uuid) when is_binary(uuid) do
+        unquote(table)
+        |> InvoicingSystem.DB.Repo.get(uuid)
         |> entity_to_struct()
       end
 
@@ -70,6 +76,8 @@ defmodule InvoicingSystem.DB.Entity do
 
       defp entity_to_struct(%unquote(table){uuid: uuid, data: data}),
         do: {uuid, :erlang.binary_to_term(data)}
+
+      defp entity_to_struct(nil), do: nil
     end
   end
 end

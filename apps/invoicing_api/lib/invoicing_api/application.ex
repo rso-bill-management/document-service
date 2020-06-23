@@ -7,8 +7,7 @@ defmodule InvoicingSystem.API.Application do
 
     children = [
       {InvoicingSystem.API.Renderer, [templates_path: templates_path]},
-      {InvoicingSystem.API.Endpoint, []},
-      {InvoicingSystem.API.Invoices, []}
+      {InvoicingSystem.API.Endpoint, []}
     ]
 
     Supervisor.start_link(children, strategy: :one_for_one, name: InvoicingSystem.API.Supervisor)

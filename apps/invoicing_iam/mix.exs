@@ -30,9 +30,7 @@ defmodule InvoicingSystem.IAM.MixProject do
   defp deps do
     [
       {:argon2_elixir, "~> 2.0"},
-      {:deferred_config, "~> 0.1.1"},
       {:joken, "~> 2.1"},
-      {:uuid, "~> 1.1"},
       {:vex, "~> 0.8.0"},
 
       # UMBRELLA
