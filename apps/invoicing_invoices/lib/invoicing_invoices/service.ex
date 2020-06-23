@@ -60,6 +60,13 @@ defmodule InvoicingSystem.Invoicing.Service do
     response
   end
 
+  def set_seller(uuid, opts) do
+    {[{_node, response}], _} =
+      GenServer.multi_call(String.to_existing_atom(uuid), {:seller, opts})
+
+    response
+  end
+
   @impl GenServer
   def init(opts) do
     uuid = Keyword.fetch!(opts, :uuid)
@@ -104,6 +111,20 @@ defmodule InvoicingSystem.Invoicing.Service do
     Logger.info("Adding new #{Atom.to_string(entity)}: #{inspect(opts)}")
 
     {:ok, db_updates, updated_state} = Core.add(state, entity, opts)
+
+    :ok = DB.execute(db_updates)
+    {:reply, :ok, updated_state}
+  end
+
+  @impl GenServer
+  def handle_call(
+        {:seller, opts},
+        _from,
+        %__MODULE__{} = state
+      ) do
+    Logger.info("Setting seller: #{inspect(opts)}")
+
+    {:ok, db_updates, updated_state} = Core.set_seller(state, opts)
 
     :ok = DB.execute(db_updates)
     {:reply, :ok, updated_state}
