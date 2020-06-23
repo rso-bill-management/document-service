@@ -21,7 +21,7 @@
     <div class="order">
         <div class="header"
             style="padding-top: 40px; text-align: justify; text-justify: inter-word; font-style: italic;">
-            Dotyczy: przykładowy tekst.
+            Dotyczy: zlecenia {{number}}.
         </div>
 
         <div style="padding-top: 50px; padding-bottom: 30px; text-align: center; font-weight: bold; font-size:14pt;">
@@ -35,12 +35,43 @@
                 {{net_price_sum}}
             </ul>
 
+            <div style="font-weight: normal;">Cena brutto:</div>
+            <ul style="list-style-type: decimal; word-break: break-all;">
+                {{gross_sum}}
+            </ul>
+
+            <div style="font-weight: normal;">Wysokość vat:</div>
+            <ul style="list-style-type: decimal; word-break: break-all;">
+                {{vat_sum}}
+            </ul>
+        </div>
+
+        <div
+        style="padding-top: 2px; text-align: justify; text-justify: inter-word; font-weight: normal; line-height: 1.5;">
+            <div style="font-weight: normal;">Data usługi:</div>
+            <ul style="list-style-type: decimal; word-break: break-all;">
+                {{date_issue}}
+            </ul>
+
+            <div style="font-weight: normal;">Dane usługi:</div>
+            <ul style="list-style-type: decimal; word-break: break-all;">
+                {{sales_data}}
+            </ul>
+        </div>
+
+        <div
+        style="padding-top: 2px; text-align: justify; text-justify: inter-word; font-weight: normal; line-height: 1.5;">
+            Zaplacona w sposob: {{payment_type}}
+        </div>
+
+        <div
+        style="padding-top: 2px; text-align: justify; text-justify: inter-word; font-weight: normal; line-height: 1.5;">
+            Dni zapłaty: {{payment_days}}
         </div>
 
         <div
             style=" padding-top: 10px; padding-bottom: 10px; text-align: justify; text-justify: inter-word; font-style: italic;">
-            Data przygotowania raportu: {{place_issue}} {{gross_sum}} {{payment_days}} {{date_issue}} {{payment_type}}
-            {{sales_data}} {{vat_sum}}
+            Data przygotowania raportu: {{place_issue}} 
         </div>
 </body>
 
