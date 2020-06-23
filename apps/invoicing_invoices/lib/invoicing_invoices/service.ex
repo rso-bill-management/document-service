@@ -81,7 +81,7 @@ defmodule InvoicingSystem.Invoicing.Service do
           DB.insert(uuid, state)
           state
 
-        state ->
+        {^uuid, state} ->
           state
       end
 
