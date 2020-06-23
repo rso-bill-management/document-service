@@ -42,7 +42,7 @@ jobs:
       - name: Linter
         run: mix format --check-formatted
       - name: Test
-        run: mix build 
+        run: mix compile 
       - name: Cache
         uses: actions/cache@v2.0.0
         with:
