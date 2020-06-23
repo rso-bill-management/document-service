@@ -42,13 +42,15 @@ defmodule InvoicingSystem.API.Renderer do
       # handlers
       def handle_call({:render, invoice}, _from, %__MODULE__{templates: templates} = state) do
         Logger.info("Rendering pdf for #{inspect(invoice)}")
+        # Logger.info("elo #{inspect(templates)}")
     
         response =
-          with {:ok, template} <- Map.fetch(templates, "pdf_template"),
-               {:ok, prepared_doc} <- prepare_document(template, invoice),
-               {:ok, pdf} <- render_pdf(prepared_doc) do
-            Logger.info("Successfully rendered a pdf")
-            {:ok, pdf}
+          with {:ok, template} <- Map.fetch(templates, :pdf_template),
+               {:ok, prepared_doc} <- prepare_document(template, Enum.map(invoice, fn({k, v}) -> {k, v} end)) do
+            #    {:ok, pdf} <- render_pdf(prepared_doc) do
+            
+            Logger.info("Successfully rendered a pdf #{inspect(prepared_doc)}")
+            {:ok, prepared_doc}
           end
     
         {:reply, response, state}
@@ -69,17 +71,22 @@ defmodule InvoicingSystem.API.Renderer do
     end
 
     defp prepare_document(body, replacements) do
+        Logger.info("Preparing document #{inspect(replacements)}")
         replacements
         |> Enum.reduce(body, &make_replacement/2)
         |> check_all_replaced()
     end
 
-    defp make_replacement(_, {:error, _} = error), do: error
+    defp make_replacement(_, {:error, _} = error) do
+        Logger.info("replacement error #{inspect(error)}!")
+         error
+    end
 
     defp make_replacement({placeholder, value}, body) do
       updated_body = String.replace(body, "{{#{placeholder}}}", "#{value}")
   
       if updated_body == body do
+        Logger.info("make_replacement not_replaced")
         {:error, {:not_replaced, placeholder}}
       else
         updated_body
@@ -89,13 +96,16 @@ defmodule InvoicingSystem.API.Renderer do
     defp check_all_replaced({:error, _} = error), do: error
 
     defp check_all_replaced(body) do
+        Logger.info("check_all_replaced called")
       if String.match?(body, ~r/{{[[:lower:]][[:lower:][:digit:]-_]*}}/u) do
+        Logger.info("Not all replaced")
         {:error, :not_all_placeholders_replaced}
       else
+        Logger.info("everything ok")
         {:ok, body}
       end
     end
-    
+
     defp load_template(templates_path, template) do
         file =
           Path.join(templates_path, template)
