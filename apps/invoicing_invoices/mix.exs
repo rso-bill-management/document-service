@@ -19,6 +19,7 @@ defmodule InvoicingSystem.Invoices.MixProject do
   def elixirc_paths(:prod), do: ["lib"]
   def elixirc_paths(:dev), do: ["lib"]
   def elixirc_paths(:test), do: ["lib", "test/test_helpers"]
+  def elixirc_paths(_), do: ["lib"]
 
   def application do
     [
