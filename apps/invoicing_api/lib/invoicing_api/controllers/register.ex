@@ -3,13 +3,23 @@ defmodule InvoicingSystem.API.RegisterController do
 
   alias InvoicingSystem.IAM.Users
 
-  def register(conn, %{"username" => username, "password" => password}) do
     case Users.add(username: username, password: password) do
       :ok ->
         conn
         |> put_status(:created)
         |> json(%{created: true})
+  require Logger
 
+  def register(
+        conn,
+        %{
+          "username" => username,
+          "password" => password,
+          "name" => name,
+          "surname" => surname
+        } = user
+      ) do
+    Logger.info("Adding new user: #{inspect(user)}")
       {:error, arr} ->
         conn
         |> put_status(:conflict)

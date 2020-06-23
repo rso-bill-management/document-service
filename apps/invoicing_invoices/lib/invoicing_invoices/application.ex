@@ -3,6 +3,7 @@ defmodule InvoicingSystem.Invoicing.Application do
 
   use Application
 
+  alias InvoicingSystem.IAM
   require Logger
 
   def start(_type, _args) do
@@ -10,10 +11,20 @@ defmodule InvoicingSystem.Invoicing.Application do
 
     DeferredConfig.populate(:invoicing_invoices)
 
-    children = []
+    children = [{InvoicingSystem.Invoicing.Supervisor, []}]
+    opts = [strategy: :one_for_one, name: InvoicingSystem.Invoicing.AppSupervisor]
+    result = Supervisor.start_link(children, opts)
 
-    opts = [strategy: :one_for_one, name: InvoicingSystem.Invoicing.Supervisor]
+    :ok = start_user_services()
 
-    Supervisor.start_link(children, opts)
+    result
+  end
+
+  defp start_user_services() do
+    users = IAM.Users.get() |> Map.keys()
+
+    Enum.each(users, fn uuid ->
+      {:ok, _pid} = InvoicingSystem.Invoicing.Supervisor.new_user(uuid)
+    end)
   end
 end
