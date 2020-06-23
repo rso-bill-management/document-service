@@ -7,7 +7,7 @@ config :invoicing_db, InvoicingSystem.DB.Repo,
   database: {:system, "PGDATABASE", "postgres"},
   username: {:system, "PGUSER", "postgres"},
   password: {:system, "PGPASSWORD", "postgres"},
-  hostname: {:system, "PGHOST", "postgres"},
+  hostname: {:system, "PGHOST", "localhost"},
   port: {:system, "PGPORT", 5432, {String, :to_integer}}
 
 config :invoicing_storage,
