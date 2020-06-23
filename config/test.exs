@@ -5,11 +5,6 @@ config :logger, level: :error
 config :joken,
   default_signer: {:system, "INVOICING_JOKEN_SECRET", "some_really_secret_secret"}
 
-config :invoicing,
-  # NOTE: `umbrella_root_dir` fixes a common reference path to the root directory
-  # of the umbrella project. This is useful because `mix test` and `mix coveralls --umbrella`
-  # have different views on the root dir when testing.
-  umbrella_root_dir: Path.join(__DIR__, "..")
 
 # We don't run a server during test. If one is required,
 # you can enable the server option below.

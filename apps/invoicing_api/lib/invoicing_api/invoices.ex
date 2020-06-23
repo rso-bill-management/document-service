@@ -52,7 +52,7 @@ defmodule InvoicingSystem.API.Invoices do
         Logger.warn("Injecting mock invoice")
         
         {:ok, mock_invoice} = 
-          Invoice.new(number: "123", date_issue: "~D[2020-06-21]", place_issue: "place", sales_data: "~D[2020-06-21]", net_price_sum: "6969", vat_sum: "123", gross_sum: "123", payment_type: "transfer", payment_days: 3.14)
+          Invoice.new(number: "123", date_issue: "~D[2020-06-21]", place_issue: "place", sales_data: "~D[2020-06-21]", net_price_sum: "6969", vat_sum: "123", gross_sum: "123", payment_type: "transfer", payment_days: "3.14")
     
         :ok = DB.execute([{:add, @invoice_uuid, mock_invoice}])
     

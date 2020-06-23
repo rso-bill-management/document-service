@@ -3,10 +3,14 @@ defmodule InvoicingSystem.API.Application do
   require Logger
 
   def start(_, _) do
+    templates_path = Application.fetch_env!(:invoicing_invoices, :templates_path)
+
     children = [
-      { InvoicingSystem.API.Endpoint, []}, 
-      { InvoicingSystem.API.Invoices, [] }
+      {InvoicingSystem.API.Renderer, [templates_path: templates_path]},
+      {InvoicingSystem.API.Endpoint, []},
+      {InvoicingSystem.API.Invoices, []}
     ]
+
     Supervisor.start_link(children, strategy: :one_for_one, name: InvoicingSystem.API.Supervisor)
   end
 end
