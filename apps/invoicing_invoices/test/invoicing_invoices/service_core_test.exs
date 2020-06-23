@@ -25,10 +25,6 @@ defmodule InvoicingSystem.Invoicing.Service.Core.Test do
     uuid: UUID.uuid4()
   ]
 
-  @item_opts [
-    uuid: UUID.uuid4()
-  ]
-
   describe "contractors:" do
     test "can get all contractors", %{init_state: state} do
       {:ok, contractors} = Core.get(state, :contractors)

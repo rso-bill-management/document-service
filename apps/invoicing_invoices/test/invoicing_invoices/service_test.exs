@@ -4,8 +4,6 @@ defmodule InvoicingSystem.Invoices.ServiceTest do
   use InvoicingSystem.DB.TestHelpers.DB
 
   alias InvoicingSystem.Invoicing.Service
-  alias InvoicingSystem.Invoicing.Structs.Contractor
-  alias InvoicingSystem.Invoicing.Invoice
 
   @uuid UUID.uuid4()
 
@@ -16,17 +14,23 @@ defmodule InvoicingSystem.Invoices.ServiceTest do
   end
 
   deffixture contractor() do
-    %Contractor{
+    [
       name: "Contractor 1",
       tin: "12345678",
       town: "Warszawa",
       street: "Główna 1",
       postalCode: "00-001"
-    }
+    ]
   end
 
   deffixture invoice() do
-    %Invoice{}
+    [
+      uuid: UUID.uuid4()
+    ]
+  end
+
+  deffixture predefined_item() do
+    []
   end
 
   describe "contractors:" do
@@ -37,19 +41,28 @@ defmodule InvoicingSystem.Invoices.ServiceTest do
     @tag fixtures: [:contractor]
     test "can add contractor", %{contractor: contractor} do
       :ok = Service.add_contractor(@uuid, contractor)
-      assert {:ok, [^contractor]} = Service.contractors(@uuid)
     end
   end
 
   describe "invoices:" do
     test "can get invoices when state is empty" do
-      assert {:ok, []} = Service.invoices(@uuid)
+      assert {:ok, %{}} = Service.invoices(@uuid)
     end
 
     @tag fixtures: [:invoice]
     test "can add invoice", %{invoice: invoice} do
       :ok = Service.add_invoice(@uuid, invoice)
-      assert {:ok, [%{invoice | number: 1}]} == Service.invoices(@uuid)
+    end
+  end
+
+  describe "items:" do
+    test "can list all items" do
+      assert {:ok, []} = Service.predefined_items(@uuid)
+    end
+
+    @tag fixtures: [:predefined_item]
+    test "can add item", %{predefined_item: item} do
+      :ok = Service.add_predefined_item(@uuid, item)
     end
   end
 end
