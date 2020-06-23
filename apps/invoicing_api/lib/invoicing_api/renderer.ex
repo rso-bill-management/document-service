@@ -46,11 +46,11 @@ defmodule InvoicingSystem.API.Renderer do
     
         response =
           with {:ok, template} <- Map.fetch(templates, :pdf_template),
-               {:ok, prepared_doc} <- prepare_document(template, Enum.map(invoice, fn({k, v}) -> {k, v} end)) do
-            #    {:ok, pdf} <- render_pdf(prepared_doc) do
+               {:ok, prepared_doc} <- prepare_document(template, Enum.map(invoice, fn({k, v}) -> {k, v} end)),
+               {:ok, pdf} <- render_pdf(prepared_doc) do
             
-            Logger.info("Successfully rendered a pdf #{inspect(prepared_doc)}")
-            {:ok, prepared_doc}
+            Logger.info("Successfully rendered a pdf #{inspect(pdf)}")
+            {:ok, pdf}
           end
     
         {:reply, response, state}
