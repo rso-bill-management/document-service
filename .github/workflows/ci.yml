@@ -1,7 +1,5 @@
 name: CI
-
 on: [push, pull_request]
-
 
 jobs:
   build:
@@ -35,14 +33,14 @@ jobs:
           mix deps.get
       - name: DB migration
         run: MIX_ENV=test mix ecto.migrate --migrations-path priv/postgres/migrations
+      - name: Test
+        run: mix test 
       - name: Linter
         run: mix format --check-formatted
-      - name: Test
-        run: mix compile 
       - name: Cache
         uses: actions/cache@v2.0.0
         with:
           path: |
             deps
             _builds
-          key: ${{ runner.os }}-mix-${{ hashFiles(format('{0}{1}', github.workspace, '/mix.lock')) }}
+          key: ${{ runner.os }}-mix-${{ hashFiles(format('{0}{1}', github.workspace, '/mix.lock')) }}-v1
