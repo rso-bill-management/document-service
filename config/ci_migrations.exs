@@ -5,4 +5,4 @@ config :invoicing_db, InvoicingSystem.DB.Repo,
   username: "postgres",
   password: "postgres",
   hostname: "postgres",
-  port: 5432,
+  port: 5432
