@@ -82,7 +82,76 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
-
+  /register:
+    post:
+      summary: 'Rejestracja uzytkownika'
+      operationId: register
+      security: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - username
+                - password
+                - name
+                - surname
+              properties:
+                username:
+                  type: string
+                password:
+                  type: string
+                  format: password
+                name:
+                  type: string 
+                surname:
+                  type: string
+      responses:
+          '200': 
+            description: "Poprawne logowanie, zwraca informacje o użytkowniku oraz token JWT."
+            content:
+              application/json:
+                schema:
+                  type: object
+                  required:
+                  - created
+                  properties:
+                    created:
+                      type: boolean
+  /invoices:
+    get:
+      summary: "Zwraca wsystkie faktury"
+      operationId: invoices
+      responses:
+        '200':
+          description: "Udało się poprawnie zwrócić wszystkie faktury."
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  invoices:
+                    type: object
+                    properties:
+                      number:
+                        type: integer
+                      date_issue:
+                        type: string
+                      place_issue:
+                        type: string
+                      sales_data:
+                        type: string
+                      net_price_sum:
+                        type: string 
+                      vat_sum:
+                        type: string
+                      gross_sum:
+                        type: string
+                      payment_type:
+                        type: string
+                      payment_days:
+                        type: string
 components:
   securitySchemes:
     jwt:
