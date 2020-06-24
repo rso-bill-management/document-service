@@ -119,7 +119,7 @@ paths:
                   properties:
                     created:
                       type: boolean
-  /invoices:
+  /invoicing/invoices:
     get:
       summary: "Zwraca wsystkie faktury"
       operationId: invoices
@@ -132,26 +132,62 @@ paths:
                 type: object
                 properties:
                   invoices:
-                    type: object
-                    properties:
-                      number:
-                        type: integer
-                      date_issue:
-                        type: string
-                      place_issue:
-                        type: string
-                      sales_data:
-                        type: string
-                      net_price_sum:
-                        type: string 
-                      vat_sum:
-                        type: string
-                      gross_sum:
-                        type: string
-                      payment_type:
-                        type: string
-                      payment_days:
-                        type: string
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        number:
+                          type: integer
+                        date_issue:
+                          type: string
+                        place_issue:
+                          type: string
+                        sales_data:
+                          type: string
+                        net_price_sum:
+                          type: string 
+                        vat_sum:
+                          type: string
+                        gross_sum:
+                          type: string
+                        payment_type:
+                          type: string
+                        payment_days:
+                          type: string
+  /invoicing/contractors:
+    get:
+      summary: "Zwraca wszystkich kontrahentów"
+      operationId: contractors
+      responses:
+        '200': 
+          description: "Poprawnie pobrano kontrahentów"
+          content: 
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    contractors:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          name:
+                            type: string
+                          tin:
+                            type: string
+                          town: 
+                            type: string
+                          street:
+                            type: string 
+                          postalCode: 
+                            type: string
+
+                          
+
+  
+
+
+
 components:
   securitySchemes:
     jwt:
