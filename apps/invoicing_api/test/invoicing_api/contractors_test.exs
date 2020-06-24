@@ -89,9 +89,10 @@ defmodule InvoicingSystem.API.InvoicesControllerTest do
     test "can set seller", %{conn: conn}  do 
       seller = %{
         tin: "123456789",
-        name: "Hurt-Detal Jan Kowalski",
-        town: "Warszawa",
+        companyName: "Hurt-Detal Jan Kowalski",
+        accountNumber: "123 000 000 000",
         street: "Obozowa 1/12",
+        town: "Warszawa",
         postalCode: "01-123"
       }
 
