@@ -105,7 +105,7 @@ defmodule InvoicingSystem.API.InvoiceController do
       Logger.info("Downloading pdf file from backend")
 
       send_download(conn, {:binary, file_contents},
-        filename: "#{invoice.number}_#{invoice.date_issue}.pdf"
+        filename: "invoice_#{invoice.number}_#{invoice.date_issue}.pdf"
       )
     else
       _error ->
