@@ -6,6 +6,18 @@ defmodule InvoicingSystem.API.InvoiceController do
 
   require Logger
 
+  def index(%{assigns: %{user: %{uuid: user_uuid}}} = conn, _) do 
+    Logger.info("User #{user_uuid} | Getting invoices")
+    case Service.invoices(user_uuid) do
+      {:ok, invoices} ->
+        {:ok, %{invoices: invoices}}
+
+      error ->
+        {:internal_server_error, %{error: error}}
+    end
+    |> json_resp(conn)
+  end
+
   def contractors(%{assigns: %{user: %{uuid: user_uuid}}} = conn, _) do
     Logger.info("User #{user_uuid} | Getting contractors")
 
