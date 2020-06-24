@@ -181,8 +181,42 @@ paths:
                             type: string 
                           postalCode: 
                             type: string
+    post:
+      summary: "Tworzenie nowego kontrahenta"
+      operationId: create_contractor
+      security: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - username
+                - password
+                - name
+                - surname
+              properties:
+                username:
+                  type: string
+                password:
+                  type: string
+                  format: password
+                name:
+                  type: string 
+                surname:
+                  type: string
+      responses:
+        '200': 
+          description: "Poprawnie utworzono kontrahenta"
+          content: 
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    status:
+                      type: string
+                      enum: ["ok"]
 
-                          
 
   
 
