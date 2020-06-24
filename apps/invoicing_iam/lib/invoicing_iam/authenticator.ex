@@ -59,9 +59,9 @@ defmodule InvoicingSystem.IAM.Authenticator do
 
   def token_config() do
     default_claims(
-      iss: "DoxyChain",
-      aud: "DoxyChain DMS",
-      default_exp: 300
+      iss: "RSO",
+      aud: "RSO",
+      default_exp: 86_400
     )
   end
 

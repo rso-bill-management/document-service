@@ -34,7 +34,7 @@ defmodule InvoicingSystem.IAM.AuthenticatorTest do
                Authenticator.validate_token(token)
     end
 
-    test "the token in invalidated after 2 hours" do
+    test "the token in invalidated after 24 hours" do
       token =
         with_mock Joken, [:passthrough], current_time: fn -> 0 end do
           {:ok, %{token: token}} = Authenticator.authenticate("user1", "qwerty")
@@ -42,13 +42,13 @@ defmodule InvoicingSystem.IAM.AuthenticatorTest do
           token
         end
 
-      # forward 5m - 1s from issuance
-      with_mock Joken, [:passthrough], current_time: fn -> 5 * 60 - 1 end do
+      # forward 24h - 1s from issuance
+      with_mock Joken, [:passthrough], current_time: fn -> 24 * 60 * 60 - 1 end do
         assert {:ok, _} = Authenticator.validate_token(token)
       end
 
-      # forward 5m from issuance
-      with_mock Joken, [:passthrough], current_time: fn -> 5 * 60 end do
+      # forward 24h from issuance
+      with_mock Joken, [:passthrough], current_time: fn -> 24 * 60 * 60 end do
         assert {:error, _} = Authenticator.validate_token(token)
       end
     end
