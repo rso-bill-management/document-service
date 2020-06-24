@@ -67,6 +67,14 @@ defmodule InvoicingSystem.Invoicing.Service do
     response
   end
 
+  def seller(uuid) do
+    {[{_node, response}], _} =
+      GenServer.multi_call(String.to_existing_atom(uuid), {:get, :seller})
+
+    response
+
+  end
+
   @impl GenServer
   def init(opts) do
     uuid = Keyword.fetch!(opts, :uuid)

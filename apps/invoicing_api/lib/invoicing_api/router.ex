@@ -28,6 +28,7 @@ defmodule InvoicingSystem.API.Router do
     get("/contractors", InvoiceController, :contractors)
     post("/contractors", InvoiceController, :new_contractor)
 
+    get("/seller", InvoiceController, :seller) 
     post("/set_seller", InvoiceController, :set_seller) 
 
     get("/predefined_items", InvoiceController, :predefined_items)

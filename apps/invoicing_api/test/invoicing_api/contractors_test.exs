@@ -85,19 +85,24 @@ defmodule InvoicingSystem.API.InvoicesControllerTest do
     end
   end
 
-  describe "sellers" do 
-    test "can set seller", %{conn: conn}  do 
+  describe "sellers" do
+    test "can get seller", %{conn: conn} do
+      response = conn |> get("/invoicing/seller") |> json_response(:ok)
+      assert response == Map.new()
+    end
+
+    test "can set seller", %{conn: conn} do
       seller = %{
-        tin: "123456789",
-        companyName: "Hurt-Detal Jan Kowalski",
-        accountNumber: "123 000 000 000",
-        street: "Obozowa 1/12",
-        town: "Warszawa",
-        postalCode: "01-123"
+        "tin" => "123456789",
+        "companyName" => "Hurt-Detal Jan Kowalski",
+        "accountNumber" => "123 000 000 000",
+        "street" => "Obozowa 1/12",
+        "town" => "Warszawa",
+        "postalCode" => "01-123"
       }
 
-
       conn |> post("/invoicing/set_seller", seller) |> json_response(:ok)
+      response = conn |> get("/invoicing/seller") |> json_response(:ok)
     end
   end
 end

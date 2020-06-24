@@ -19,6 +19,19 @@ defmodule InvoicingSystem.API.InvoiceController do
     |> json_resp(conn)
   end
 
+  def seller(
+        %{assigns: %{user: %{uuid: user_uuid}}} = conn,
+        _
+      ) do
+    Logger.info("User #{user_uuid} | Getting seller")
+
+    case Service.seller(user_uuid) do
+      {:ok, seller} -> {:ok, seller}
+      error -> {:internal_server_error, error}
+    end
+    |> json_resp(conn)
+  end
+
   def set_seller(
         %{assigns: %{user: %{uuid: user_uuid}}} = conn,
         %{
