@@ -90,6 +90,8 @@ defmodule InvoicingSystem.API.InvoicesControllerTest do
       }
 
       conn |> post("/invoicing/invoices", invoice) |> json_response(:ok)
+      [%{"uuid" => _}] = conn |> get("/invoicing/invoices") |> json_response(:ok)
+
     end
   end
 

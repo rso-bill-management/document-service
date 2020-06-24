@@ -17,7 +17,7 @@ defmodule InvoicingSystem.Invoicing.Invoice do
   ]
 
   def new(opts) do
-    contractor = Keyword.fetch!(opts, :contractor) |> Structs.Contractor.new()
+    {:ok, contractor} = Keyword.fetch!(opts, :contractor) |> Structs.Contractor.new()
 
     positions =
       Keyword.fetch!(opts, :positions)
