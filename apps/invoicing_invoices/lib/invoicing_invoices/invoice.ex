@@ -9,7 +9,8 @@ defmodule InvoicingSystem.Invoicing.Invoice do
     :vatSum,
     :grossSum,
     :paymentType,
-    :paymentDays
+    :paymentDays,
+    :positions
   ]
 
   def new(opts) do
