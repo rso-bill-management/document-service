@@ -229,6 +229,12 @@ paths:
                 type: array
                 items:
                     type: object
+                    required:
+                    - title
+                    - count
+                    - unit
+                    - unitNettoPrice
+                    - vat
                     properties:
                       title:
                         type: string
@@ -243,8 +249,60 @@ paths:
                       vat: 
                         type: integer
                         format: int64         
-
-  
+    post: 
+      summary: "Stworz zapisane pozycje faktur"
+      operationId: create_predefined
+      security: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+                type: array
+                items:
+                    type: object
+                    properties:
+                      title:
+                        type: string
+                      count:
+                        type: number 
+                        format: float
+                      unit:
+                        type: string
+                      unitNettoPrice:
+                        type: number
+                        format: float
+                      vat: 
+                        type: integer
+                        format: int64    
+      responses: 
+        '200':
+          description: "Udało się poprawnie wczytać wszystkie zapisane faktury"
+          content: 
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    status:
+                      type: string
+                      enum: ["ok"]
+  /invoicing/invoices/{:uuid}/pdf:
+    get:
+      parameters:
+        - in: path
+          name: uuid 
+          required: true
+          schema:
+            type: integer
+          description: The invoice uuid
+      summary: "Zwrocenie konkretnej faktury"
+      responses:
+        '200':
+          description: "Udało się poprawnie wygenerować plik pdf."
+          content:
+            application/pdf:
+              schema:
+                type: string
+                format: binary
 
 
 
