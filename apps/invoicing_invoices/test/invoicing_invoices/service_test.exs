@@ -26,7 +26,9 @@ defmodule InvoicingSystem.Invoices.ServiceTest do
 
   deffixture invoice() do
     [
-      uuid: UUID.uuid4()
+      uuid: UUID.uuid4(),
+      contractor: [],
+      positions: []
     ]
   end
 

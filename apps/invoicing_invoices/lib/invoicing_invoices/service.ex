@@ -72,7 +72,6 @@ defmodule InvoicingSystem.Invoicing.Service do
       GenServer.multi_call(String.to_existing_atom(uuid), {:get, :seller})
 
     response
-
   end
 
   @impl GenServer
@@ -108,6 +107,21 @@ defmodule InvoicingSystem.Invoicing.Service do
     Logger.info("Getting all #{Atom.to_string(entity)}")
     response = Core.get(state, entity)
     {:reply, response, state}
+  end
+
+  @impl GenServer
+  def handle_call(
+        {:add, :invoice = entity, opts},
+        _from,
+        %__MODULE__{} = state
+      ) do
+    Logger.info("Adding new invoice: #{inspect(opts)}")
+
+    opts = Keyword.put_new(opts, :uuid, UUID.uuid4())
+    {:ok, db_updates, updated_state} = Core.add(state, entity, opts)
+
+    :ok = DB.execute(db_updates)
+    {:reply, :ok, updated_state}
   end
 
   @impl GenServer

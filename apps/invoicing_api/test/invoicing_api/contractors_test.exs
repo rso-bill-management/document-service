@@ -47,22 +47,49 @@ defmodule InvoicingSystem.API.InvoicesControllerTest do
     :ok
   end
 
+  @contractor %{
+    tin: "123456789",
+    name: "Hurt-Detal Jan Kowalski",
+    town: "Warszawa",
+    street: "Obozowa 1/12",
+    postalCode: "01-123"
+  }
+
+  @position %{
+    title: "Gwoździe",
+    vat: 23,
+    unit: "kg",
+    unitNettoPrice: 123.12,
+    count: 1.24
+  }
+
   describe "contractors:" do
     test "can get contractors", %{conn: conn} do
       conn |> get("/invoicing/contractors") |> json_response(:ok)
     end
 
     test "can add contractor", %{conn: conn} do
-      contractor = %{
-        tin: "123456789",
-        name: "Hurt-Detal Jan Kowalski",
-        town: "Warszawa",
-        street: "Obozowa 1/12",
-        postalCode: "01-123"
+      conn |> post("/invoicing/contractors", @contractor) |> json_response(:ok)
+      conn |> get("/invoicing/contractors") |> json_response(:ok)
+    end
+  end
+
+  describe "invoice:" do
+    test "can be created", %{conn: conn} do
+      invoice = %{
+        dateIssue: "2020-01-01",
+        placeIssue: "Warszawa",
+        saleDate: "2020-01-01",
+        contractor: @contractor,
+        positions: [@position, @position],
+        netPriceSum: 10.1,
+        vatSum: 100.1,
+        grossSum: 100.1,
+        paymentType: "GOTÓWKA",
+        paymentDays: 10
       }
 
-      conn |> post("/invoicing/contractors", contractor) |> json_response(:ok)
-      conn |> get("/invoicing/contractors") |> json_response(:ok)
+      conn |> post("/invoicing/invoices", invoice) |> json_response(:ok)
     end
   end
 
@@ -72,13 +99,7 @@ defmodule InvoicingSystem.API.InvoicesControllerTest do
     end
 
     test "can add a predefined item", %{conn: conn} do
-      predefined_item = %{
-        title: "Gwoździe",
-        vat: 23,
-        unit: "kg",
-        unitNettoPrice: 123.12,
-        count: 1.24
-      }
+      predefined_item = @position
 
       conn |> post("/invoicing/predefined_items", predefined_item) |> json_response(:ok)
       conn |> get("/invoicing/predefined_items") |> json_response(:ok)
@@ -102,7 +123,7 @@ defmodule InvoicingSystem.API.InvoicesControllerTest do
       }
 
       conn |> post("/invoicing/set_seller", seller) |> json_response(:ok)
-      response = conn |> get("/invoicing/seller") |> json_response(:ok)
+      conn |> get("/invoicing/seller") |> json_response(:ok)
     end
   end
 end
