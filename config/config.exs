@@ -1,6 +1,5 @@
 use Mix.Config
 
-
 # EXTERNAL APPS CONFIGURATION
 config :joken,
   default_signer: {:system, "INVOICING_JOKEN_SECRET"}
@@ -26,14 +25,17 @@ config :vex,
 
 config :phoenix, json_library: Jason
 
-
 # INVOICING APP CONFIGURATION
 config :invoicing_db, InvoicingSystem.DB.Repo,
   database: {:system, "PGDATABASE"},
   username: {:system, "PGUSER"},
   password: {:system, "PGPASSWORD"},
   hostname: {:system, "PGHOST"},
-  port: {:system, "PGPORT", {String, :to_integer}}
+  port: {:system, "PGPORT", {String, :to_integer}},
+  ssl: true,
+  ssl_opts: [
+    versions: [:"tlsv1.2"]
+  ]
 
 config :invoicing_api,
        InvoicingSystem.API.Endpoint,
