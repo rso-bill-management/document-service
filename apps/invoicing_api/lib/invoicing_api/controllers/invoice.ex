@@ -10,7 +10,7 @@ defmodule InvoicingSystem.API.InvoiceController do
     Logger.info("User #{user_uuid} | Getting invoices")
     case Service.invoices(user_uuid) do
       {:ok, invoices} ->
-        {:ok, %{invoices: invoices}}
+        {:ok, invoices}
 
       error ->
         {:internal_server_error, %{error: error}}
@@ -23,7 +23,7 @@ defmodule InvoicingSystem.API.InvoiceController do
 
     case Service.contractors(user_uuid) do
       {:ok, contractors} ->
-        {:ok, %{contractors: contractors}}
+        {:ok, contractors}
 
       error ->
         {:internal_server_error, %{error: error}}
@@ -63,7 +63,7 @@ defmodule InvoicingSystem.API.InvoiceController do
 
     case Service.predefined_items(user_uuid) do
       {:ok, items} ->
-        {:ok, %{predefined_items: items}}
+        {:ok, items}
 
       error ->
         {:internal_server_error, %{error: error}}
