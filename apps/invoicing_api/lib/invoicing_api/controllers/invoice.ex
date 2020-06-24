@@ -41,7 +41,7 @@ defmodule InvoicingSystem.API.InvoiceController do
           "postalCode" => postalCode
         } = contractor
       ) do
-    Logger.info("User #{user_uuid} | Adding new contractor: #{contractor}")
+    Logger.info("User #{user_uuid} | Adding new contractor: #{inspect(contractor)}")
 
     opts = [
       name: name,
@@ -82,7 +82,7 @@ defmodule InvoicingSystem.API.InvoiceController do
         } = item
       )
       when is_number(count) and is_integer(vat) and is_number(unitNettoPrice) do
-    Logger.info("User #{user_uuid} | Adding new predefined item: #{item}")
+    Logger.info("User #{user_uuid} | Adding new predefined item: #{inspect(item)}")
 
     opts = [
       title: title,
