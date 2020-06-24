@@ -216,6 +216,36 @@ paths:
                     status:
                       type: string
                       enum: ["ok"]
+  /invoicing/predefined_items:
+    get:
+      summary: "Zwraca zapisane pozycje faktur"
+      operationId: predefined_items
+      responses:
+        '200':
+          description: "Udało się poprawnie zwrócić wszystkie pozycje faktur."
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                    type: object
+                    properties:
+                      title:
+                        type: string
+                      count:
+                        type: number 
+                        format: float
+                      unit:
+                        type: string
+                      unitNettoPrice:
+                        type: number
+                        format: float
+                      vat: 
+                        type: integer
+                        format: int64         
+
+  
+
 
 
   
