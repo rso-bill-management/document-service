@@ -11,6 +11,11 @@ defmodule InvoicingSystem.API.InvoiceController do
 
     case Service.invoices(user_uuid) do
       {:ok, invoices} ->
+        invoices
+        |> Enum.map(fn
+          {k, v} -> Map.from_struct(v) |> Map.put_new(:uuid, k)
+        end)
+
         {:ok, invoices}
 
       error ->
