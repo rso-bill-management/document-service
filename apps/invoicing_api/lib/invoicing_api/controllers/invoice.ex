@@ -6,14 +6,44 @@ defmodule InvoicingSystem.API.InvoiceController do
 
   require Logger
 
-  def index(%{assigns: %{user: %{uuid: user_uuid}}} = conn, _) do 
+  def index(%{assigns: %{user: %{uuid: user_uuid}}} = conn, _) do
     Logger.info("User #{user_uuid} | Getting invoices")
+
     case Service.invoices(user_uuid) do
       {:ok, invoices} ->
         {:ok, invoices}
 
       error ->
         {:internal_server_error, %{error: error}}
+    end
+    |> json_resp(conn)
+  end
+
+  def set_seller(
+        %{assigns: %{user: %{uuid: user_uuid}}} = conn,
+        %{
+          "tin" => tin,
+          "companyName" => companyName,
+          "accountNumber" => accountNumber,
+          "street" => street,
+          "town" => town,
+          "postalCode" => postalCode
+        } = seller
+      ) do
+    Logger.info("User #{user_uuid} | Setting seller")
+
+    opts = [
+      tin: tin,
+      companyName: companyName,
+      town: town,
+      postalCode: postalCode,
+      accountNumber: accountNumber,
+      street: street
+    ]
+
+    case Service.set_seller(user_uuid, opts) do
+      :ok -> {:ok, %{status: :ok}}
+      error -> {:internal_server_error, error}
     end
     |> json_resp(conn)
   end
