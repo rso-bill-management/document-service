@@ -22,7 +22,9 @@ defmodule InvoicingSystem.Invoicing.Service.Core.Test do
   ]
 
   @invoice_opts [
-    uuid: UUID.uuid4()
+    uuid: UUID.uuid4(),
+    positions: [],
+    contractor: []
   ]
 
   describe "contractors:" do

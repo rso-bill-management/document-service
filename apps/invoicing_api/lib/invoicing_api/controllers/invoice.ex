@@ -82,29 +82,36 @@ defmodule InvoicingSystem.API.InvoiceController do
   def new_invoice(
         %{assigns: %{user: %{uuid: user_uuid}}} = conn,
         %{
-          "number" => number,
-          "date_issue" => date_issue,
-          "place_issue" => place_issue,
-          "sales_data" => sales_data,
-          "net_price_sum" => net_price_sum,
-          "vat_sum" => vat_sum,
-          "gross_sum" => gross_sum,
-          "payment_type" => payment_type,
-          "payment_days" => payment_days
+          "dateIssue" => dateIssue,
+          "placeIssue" => placeIssue,
+          "saleDate" => saleDate,
+          "contractor" => contractor,
+          "positions" => positions,
+          "netPriceSum" => netPriceSum,
+          "vatSum" => vatSum,
+          "grossSum" => grossSum,
+          "paymentType" => paymentType,
+          "paymentDays" => paymentDays
         } = invoice
-      ) do
+      )
+      when is_number(netPriceSum) and is_number(vatSum) and is_number(grossSum) and
+             is_number(paymentDays) do
     Logger.info("User #{user_uuid} | Adding new invoice: #{inspect(invoice)}")
 
+    contractor = to_keyword(contractor)
+    positions = Enum.map(positions, &to_keyword/1)
+
     opts = [
-      number: number,
-      data_issue: date_issue,
-      place_issue: place_issue,
-      sales_data: sales_data,
-      net_price_sum: net_price_sum,
-      vat_sum: vat_sum,
-      gross_sum: gross_sum,
-      payment_type: payment_type,
-      payment_days: payment_days
+      dateIssue: dateIssue,
+      placeIssue: placeIssue,
+      saleDate: saleDate,
+      contractor: contractor,
+      positions: positions,
+      netPriceSum: netPriceSum,
+      vatSum: vatSum,
+      grossSum: grossSum,
+      paymentType: paymentType,
+      paymentDays: paymentDays
     ]
 
     case Service.add_invoice(user_uuid, opts) do
@@ -194,5 +201,38 @@ defmodule InvoicingSystem.API.InvoiceController do
       _error ->
         json_resp({:not_found, %{error: :not_found}}, conn)
     end
+  end
+
+  defp to_keyword(%{
+         "title" => title,
+         "vat" => vat,
+         "unit" => unit,
+         "unitNettoPrice" => unitNettoPrice,
+         "count" => count
+       })
+       when is_number(count) and is_integer(vat) and is_number(unitNettoPrice) do
+    [
+      title: title,
+      vat: vat,
+      unit: unit,
+      unitNettoPrice: unitNettoPrice,
+      count: count
+    ]
+  end
+
+  defp to_keyword(%{
+         "name" => name,
+         "tin" => tin,
+         "street" => street,
+         "town" => town,
+         "postalCode" => postalCode
+       }) do
+    [
+      name: name,
+      tin: tin,
+      town: town,
+      street: street,
+      postalCode: postalCode
+    ]
   end
 end

@@ -28,15 +28,14 @@ defmodule InvoicingSystem.API.Router do
     get("/contractors", InvoiceController, :contractors)
     post("/contractors", InvoiceController, :new_contractor)
 
-    get("/seller", InvoiceController, :seller) 
-    post("/set_seller", InvoiceController, :set_seller) 
+    get("/seller", InvoiceController, :seller)
+    post("/set_seller", InvoiceController, :set_seller)
 
     get("/predefined_items", InvoiceController, :predefined_items)
     post("/predefined_items", InvoiceController, :new_predefined_item)
- 
+
     get("/invoice/:uuid/pdf", InvoiceController, :pdf)
-    
-  
+
     get("/invoices", InvoiceController, :index)
     post("/invoices", InvoiceController, :new_invoice)
   end

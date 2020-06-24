@@ -15,5 +15,4 @@ defmodule InvoicingSystem.Invoicing.Service.Core do
     db_updates = [{:update, uuid, updated_state}]
     {:ok, db_updates, updated_state}
   end
-
 end
