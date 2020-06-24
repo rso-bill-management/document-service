@@ -33,6 +33,14 @@ services:
     volumes:
       - pgdata:/var/lib/postgresql/data
 
+  nginx-reverse-proxy:
+    image: doxychainorg/nginx-reverse-proxy:latest
+    environment:
+      APPLICATION_URL: phoenix:6969
+    ports:
+      - "90:80"
+    depends_on:
+      - phoenix 
 volumes:
   invoicing:
   pgdata:
