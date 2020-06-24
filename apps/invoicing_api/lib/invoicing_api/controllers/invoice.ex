@@ -79,6 +79,41 @@ defmodule InvoicingSystem.API.InvoiceController do
     |> json_resp(conn)
   end
 
+  def new_invoice(
+        %{assigns: %{user: %{uuid: user_uuid}}} = conn,
+        %{
+          "number" => number,
+          "date_issue" => date_issue, 
+          "place_issue" => place_issue,
+          "sales_data" => sales_data,
+          "net_price_sum" => net_price_sum, 
+          "vat_sum" => vat_sum, 
+          "gross_sum" => gross_sum, 
+          "payment_type" => payment_type, 
+          "payment_days" => payment_days
+        } = invoice
+  ) do 
+   Logger.info("User #{user_uuid} | Adding new invoice: #{inspect(invoice)}")
+  
+    opts = [
+        number: number,
+        data_issue: date_issue,
+        place_issue: place_issue,
+        sales_data: sales_data,
+        net_price_sum: net_price_sum, 
+        vat_sum: vat_sum, 
+        gross_sum: gross_sum,
+        payment_type: payment_type, 
+        payment_days: payment_days
+    ]
+  
+    case Service.add_invoice(user_uuid, opts) do
+      :ok -> {:ok, %{status: :ok}}
+      error -> {:internal_server_error, error}
+    end
+    |> json_resp(conn)
+  end
+
   def new_contractor(
         %{assigns: %{user: %{uuid: user_uuid}}} = conn,
         %{

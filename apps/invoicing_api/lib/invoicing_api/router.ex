@@ -33,9 +33,12 @@ defmodule InvoicingSystem.API.Router do
 
     get("/predefined_items", InvoiceController, :predefined_items)
     post("/predefined_items", InvoiceController, :new_predefined_item)
-
+ 
     get("/invoice/:uuid/pdf", InvoiceController, :pdf)
+    
+  
     get("/invoices", InvoiceController, :index)
+    post("/invoices", InvoiceController, :new_invoice)
   end
 
   scope "/", InvoicingSystem.API do
