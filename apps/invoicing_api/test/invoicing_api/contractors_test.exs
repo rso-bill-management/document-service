@@ -66,6 +66,24 @@ defmodule InvoicingSystem.API.InvoicesControllerTest do
     end
   end
 
+  describe "invoice:" do 
+    test "can be created", %{conn: conn} do 
+      invoice = %{
+        number: 6969,
+        date_issue: "2016-06-09", 
+        place_issue: "issue",
+        sales_data: "sales data",
+        net_price_sum: 123, 
+        vat_sum: 25, 
+        gross_sum: 123, 
+        payment_type: "transfer", 
+        payment_days: 23
+      }
+      
+      conn |> post("/invoicing/invoices", invoice) |> json_response(:ok)
+    end
+  end
+
   describe "predefined items:" do
     test "can get predefined items", %{conn: conn} do
       conn |> get("/invoicing/predefined_items") |> json_response(:ok)
