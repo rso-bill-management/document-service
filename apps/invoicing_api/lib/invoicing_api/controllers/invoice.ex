@@ -18,6 +18,32 @@ defmodule InvoicingSystem.API.InvoiceController do
     |> json_resp(conn)
   end
 
+  def set_seller(%{assings: %{user: %{uuid: user_uuid}}} = conn, 
+    %{
+        "companyName" => companyName,
+        "town" => town,
+        "postalCode" => postalCode,
+        "accountNumber" => accountNumber,
+        "street" => street
+      } = seller
+  ) do 
+    Logger.info("User #{user_uuid} | Settting seller")
+
+    opts = [
+      companyName: companyName,
+      town: town,
+      postalCode: postalCode,
+      accountNumber: accountNumber,
+      street: street
+    ]
+
+    case Service.set_seller(user_uuid, opts) do 
+      :ok -> {:ok, %{status: :ok}}
+      error -> {:internal_server_error, error}
+    end
+    |> json_resp(conn)
+  end
+
   def contractors(%{assigns: %{user: %{uuid: user_uuid}}} = conn, _) do
     Logger.info("User #{user_uuid} | Getting contractors")
 
