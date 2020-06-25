@@ -172,7 +172,7 @@ defmodule InvoicingSystem.Invoicing.Renderer do
   end
 
   defp map_position({position, index}) do
-    gross_netto = (position.unitNettoPrice * position.count) |> Float.round(2)
+    gross_netto = (position.unitNettoPrice * position.count) |> Kernel./(1) |> Float.round(2)
 
     """
     <tr>
