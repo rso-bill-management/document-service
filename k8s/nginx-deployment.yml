@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginxreverse
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: nginxreverse
+  template:
+    metadata:
+      labels:
+        app: nginxreverse
+    spec:
+      containers:
+      - name: nginxreverse
+        image: rsoacr.azurecr.io/nginx-reverse-proxy:v1
+        ports:
+        - containerPort: 80
+          name: nginxreverse
+        env:
+        - name: APPLICATION_URL
+          value: "documentservice:6969"
+

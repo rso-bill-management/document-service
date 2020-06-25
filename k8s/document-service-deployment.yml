@@ -1,0 +1,49 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: document-service
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: documentservice
+  template:
+    metadata:
+      labels:
+        app: documentservice
+    spec:
+      containers:
+      - name: documentservice
+        image: rsoacr.azurecr.io/document-service_phoenix:v1
+        ports:
+        - containerPort: 6969
+          name: documentservice
+        env:
+        - name: PGDATABASE
+          valueFrom:
+            secretKeyRef:
+              name: postgres-secret
+              key: postgres-database
+        - name: POSTGRES_PASSWORD  
+          valueFrom:
+            secretKeyRef:
+              name: postgres-secret
+              key: postgres-password
+        - name: PGUSER
+          valueFrom:
+            secretKeyRef:
+              name: postgres-secret
+              key: postgres-username
+        - name: PGPORT
+          value: "5432"
+        - name: PGHOST
+          valueFrom:
+            secretKeyRef:
+              name: postgres-secret
+              key: postgres-host
+        - name: INVOICING_JOKEN_SECRET
+          valueFrom:
+            secretKeyRef:
+              name: postgres-secret
+              key: invoicing-password
+
