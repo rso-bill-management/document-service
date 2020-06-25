@@ -40,6 +40,11 @@ defmodule InvoicingSystem.API.Router do
     post("/invoices", InvoiceController, :new_invoice)
   end
 
+  scope "/invoicing", InvoicingSystem.API do
+    pipe_through(:unrestricted_api)
+    get("/invoice/:uuid/pdf", InvoiceController, :pdf)
+  end
+
   scope "/", InvoicingSystem.API do
     pipe_through(:api)
     get("/status", StatusController, :status)

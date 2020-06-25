@@ -3,7 +3,6 @@ defmodule InvoicingSystem.API.Application do
   require Logger
 
   def start(_, _) do
-
     children = [
       {InvoicingSystem.API.Endpoint, []}
     ]
