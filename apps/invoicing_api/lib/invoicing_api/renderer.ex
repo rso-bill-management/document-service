@@ -59,13 +59,14 @@ defmodule InvoicingSystem.API.Renderer do
   defp render_pdf(html) do
     opts = [
       page_size: "A4",
+      # delete_temporary: true,
       shell_params: [
         "--dpi",
         "600"
-      ],
-      delete_temporary: true
+      ]
     ]
 
+    PdfGenerator.generate(html, opts) |> IO.inspect()
     PdfGenerator.generate_binary(html, opts)
   end
 

@@ -1,79 +1,138 @@
+<!DOCTYPE html>
 <html lang="pl">
-
-<head>
-    <meta charset="utf-8">
-    <style>
-        body {
-            height: 842px;
-            width: 750px;
-            /* to centre page on screen*/
-            margin-left: auto;
-            margin-right: auto;
+   <head>
+      <meta charset="utf-8">
+      <style>
+         body {
+         height: 842px;
+         width: 750px;
+         /* to centre page on screen*/
+         margin-left: auto;
+         margin-right: auto;
+         }
+         li {
+         padding-left: 1em;
+         }
+        #t01 tr:nth-child(even) {
+          background-color: #eee;
+          border: 1px solid black;
+          border-collapse: collapse;
         }
-
-        li {
-            padding-left: 1em;
+        #t01 tr:nth-child(odd) {
+          background-color: #fff;
+          border: 1px solid black;
+          border-collapse: collapse;
         }
-    </style>
-</head>
-
-<body style="font-size:12pt; font-family: 'Times New Roman', Times, serif;">
-    <div class="order">
-        <div class="header"
-            style="padding-top: 40px; text-align: justify; text-justify: inter-word; font-style: italic;">
-            Dotyczy: zlecenia {{number}}.
-        </div>
-
-        <div style="padding-top: 50px; padding-bottom: 30px; text-align: center; font-weight: bold; font-size:14pt;">
-            Historia zlecenia nr {{number}} z dnia {{date_issue}} roku
-        </div>
-
-        <div
-            style="padding-top: 10px; text-align: justify; text-justify: inter-word; font-weight: normal; line-height: 1.5;">
-            <div style="font-weight: normal;">Cena netto:</div>
-            <ul style="list-style-type: decimal; word-break: break-all;">
-                {{net_price_sum}}
-            </ul>
-
-            <div style="font-weight: normal;">Cena brutto:</div>
-            <ul style="list-style-type: decimal; word-break: break-all;">
-                {{grossSum}}
-            </ul>
-
-            <div style="font-weight: normal;">Wysokość vat:</div>
-            <ul style="list-style-type: decimal; word-break: break-all;">
-                {{vatSum}}
-            </ul>
-        </div>
-
-        <div
-        style="padding-top: 2px; text-align: justify; text-justify: inter-word; font-weight: normal; line-height: 1.5;">
-            <div style="font-weight: normal;">Data usługi:</div>
-            <ul style="list-style-type: decimal; word-break: break-all;">
-                {{dateIssue}}
-            </ul>
-
-            <div style="font-weight: normal;">Dane usługi:</div>
-            <ul style="list-style-type: decimal; word-break: break-all;">
-                {{salesData}}
-            </ul>
-        </div>
-
-        <div
-        style="padding-top: 2px; text-align: justify; text-justify: inter-word; font-weight: normal; line-height: 1.5;">
-            Zaplacona w sposob: {{paymentType}}
-        </div>
-
-        <div
-        style="padding-top: 2px; text-align: justify; text-justify: inter-word; font-weight: normal; line-height: 1.5;">
-            Dni zapłaty: {{paymentDays}}
-        </div>
-
-        <div
-            style=" padding-top: 10px; padding-bottom: 10px; text-align: justify; text-justify: inter-word; font-style: italic;">
-            Data przygotowania raportu: {{placeIssue}} 
+        #t01 th {
+          color: white;
+          background-color: grey;
+          border: 1px solid black;
+          border-collapse: collapse;
+        }
+        #t01 td {
+          text-align: right;
+          padding-right: 5px;
+          border: 1px solid black;
+          border-collapse: collapse;
+        }
+        #t02 tr:nth-child(even) {
+          background-color: #eee;
+          border: 1px solid black;
+          border-collapse: collapse;
+        }
+        #t02 tr:nth-child(odd) {
+          background-color: #fff;
+          border: 1px solid black;
+          border-collapse: collapse;
+        }
+        #t02 th {
+          color: white;
+          background-color: grey;
+          border: 1px solid black;
+          border-collapse: collapse;
+        }
+        #t02 td {
+          text-align: center;
+          border: 1px solid black;
+          border-collapse: collapse;
+        }
+      </style>
+   </head>
+   <body style="font-size:12pt; font-family: 'Times New Roman', Times, serif;">
+      <h2 style="text-align: center;">Faktura VAT nr {{number}}/2020</h2>
+      <p><strong>Data sprzedaży: {{sale_date}}</strong></p>
+      <p><strong>Data wystawienia faktury: {{issue_date}}</strong></p>
+      <p><strong>Sposób zapłaty: {{payment}}</strong></p>
+      <p><strong>Termin płatności: {{payment_date}} dni</strong></p>
+      <table  style="margin-left: auto; margin-right: auto;" >
+         <tbody>
+            <tr>
+               <td style="width: 400px; text-align: left;">
+                  <p><strong>Nabywca</strong>:</p>
+                  <p>{{contractor_name}}</p>
+                  <p>{{contractor_street}}</p>
+                  <p>{{contractor_city}}</p>
+                  <p>NIP: {{contractor_nip}}</p>
+               </td>
+               <td style="width: 400px; text-align: left;">
+                  <p><strong>Sprzedawca</strong>:</p>
+                  <p>{{seller_name}}</p>
+                  <p>{{seller_street}}</p>
+                  <p>{{seller_city}}</p>
+                  <p>NIP: {{seller_nip}}</p>
+               </td>
+            </tr>
+         </tbody>
+      </table>
+      <hr />
+      <h3>Pozycje faktury:</h3>
+      <table id="t01" style=" width: 100% ; margin-left: auto; margin-right: auto; border: 1px solid black; border-collapse: collapse;">
+            <tr>
+               <th>Lp.</th>
+               <th>Nazwa towaru lub usługi</th>
+               <th>Ilość</th>
+               <th>Jedn.</th>
+               <th>Cena jedn. netto</th>
+               <th>Wartość netto</th>
+               <th>Stawka VAT</th>
+            </tr>
             {{positions}}
-        </div>
-</body>
-
+      </table>
+      <h3><strong>Podsumowanie:</strong></h3>
+      <table id="t02" style="width:100% ; border: 1px solid black; border-collapse: collapse;">
+        <tr>
+          <td>Suma netto</td>
+          <td colspan="3"> {{net_price}} PLN</td>
+        </tr>
+        <tr>
+          <td>Suma vat</td>
+          <td colspan="3"> {{vat_sum}} PLN</td>
+        </tr>
+        <tr>
+          <td><strong>Suma</strong></td>
+          <td colspan="3"><strong> {{gross_sum}} PLN</strong></td>
+        </tr>
+        <tr>
+          <td>Konto bankowe</td>
+          <td colspan="3"> {{seller_account}} </td>
+        </tr>
+      </table>
+      <hr/>
+      <table style="margin-left: auto; margin-right: auto;">
+         <tbody>
+            <tr>
+               <td>Faktura bez podpisu odbiorcy</td>
+               <td>
+                  <p style="text-align: center;">Osoba upoważniona do wystawienia faktury VAT:</p>
+               </td>
+            </tr>
+            <tr>
+               <td style="width: 410px;">&nbsp;</td>
+               <td style="width: 590px;">
+                  <p style="text-align: center;"><strong>{{user_name}}</strong></p>
+               </td>
+            </tr>
+         </tbody>
+      </table>
+   </body>
 </html>

@@ -91,7 +91,36 @@ defmodule InvoicingSystem.API.InvoicesControllerTest do
 
       conn |> post("/invoicing/invoices", invoice) |> json_response(:ok)
       [%{"uuid" => _}] = conn |> get("/invoicing/invoices") |> json_response(:ok)
+    end
 
+    test "can render a pdf", %{conn: conn} do
+      seller = %{
+        "tin" => "123456789",
+        "companyName" => "Hurt-Detal Jan Kowalski",
+        "accountNumber" => "02116022020000000337985822",
+        "street" => "Obozowa 1/12",
+        "town" => "Warszawa",
+        "postalCode" => "01-123"
+      }
+
+      conn |> post("/invoicing/set_seller", seller) |> json_response(:ok)
+
+      invoice = %{
+        dateIssue: "2020-01-01",
+        placeIssue: "Warszawa",
+        saleDate: "2020-01-01",
+        contractor: @contractor,
+        positions: [@position, @position],
+        netPriceSum: 10.1,
+        vatSum: 100.1,
+        grossSum: 100.1,
+        paymentType: "GOTÓWKA",
+        paymentDays: 10
+      }
+
+      conn |> post("/invoicing/invoices", invoice) |> json_response(:ok)
+      [%{"uuid" => uuid}] = conn |> get("/invoicing/invoices") |> json_response(:ok)
+      conn |> get("/invoicing/invoice/#{uuid}/pdf") |> response(:ok)
     end
   end
 

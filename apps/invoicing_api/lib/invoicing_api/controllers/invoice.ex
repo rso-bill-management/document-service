@@ -2,7 +2,7 @@ defmodule InvoicingSystem.API.InvoiceController do
   use InvoicingSystem.API, :controller
 
   alias InvoicingSystem.Invoicing.Service
-  alias InvoicingSystem.API.Renderer
+  alias InvoicingSystem.Invoicing.Renderer
 
   require Logger
 
@@ -49,7 +49,7 @@ defmodule InvoicingSystem.API.InvoiceController do
           "postalCode" => postalCode
         } = seller
       ) do
-    Logger.info("User #{user_uuid} | Setting seller")
+    Logger.info("User #{user_uuid} | Setting seller #{inspect(seller)}")
 
     opts = [
       tin: tin,
@@ -190,14 +190,17 @@ defmodule InvoicingSystem.API.InvoiceController do
     |> json_resp(conn)
   end
 
-  def pdf(conn, %{"uuid" => uuid}) do
-    with {:ok, invoice} <- Invoices.get_invoice(uuid),
-         {:ok, file_contents} <- Renderer.render(invoice) do
+  def pdf(
+        %{assigns: %{user: %{uuid: user_uuid} = user}} = conn,
+        %{"uuid" => uuid}
+      ) do
+    with {:ok, invoices} <- Service.invoices(user_uuid),
+         {:ok, invoice} <- Map.fetch(invoices, uuid),
+         {:ok, seller} <- Service.seller(user_uuid),
+         {:ok, file_contents} <- Renderer.render(invoice, user, seller) do
       Logger.info("Downloading pdf file from backend")
 
-      send_download(conn, {:binary, file_contents},
-        filename: "invoice_#{invoice.number}_#{invoice.date_issue}.pdf"
-      )
+      send_download(conn, {:binary, file_contents}, filename: "invoice-2020-#{invoice.number}.pdf")
     else
       _error ->
         json_resp({:not_found, %{error: :not_found}}, conn)
